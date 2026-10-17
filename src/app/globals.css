@@ -1,0 +1,159 @@
+@import "tailwindcss";
+
+:root {
+  /* Dark Mode is Default */
+  --bg-main: #0B1020;
+  --bg-secondary: #11182A;
+  --bg-card: #171F33;
+  --bg-card-hover: #1E2942;
+  --bg-elevated: #222C46;
+  
+  --accent-primary: #A78BFA;
+  --accent-strong: #8B5CF6;
+  --accent-glow: rgba(139, 92, 246, 0.25);
+  --color-mint: #6EE7B7;
+  --color-mint-glow: rgba(110, 231, 183, 0.2);
+  --color-ruby: #F87171;
+  --color-amber: #FBBF24;
+  
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  
+  --border-subtle: #1E293B;
+  --border-active: #334155;
+  --border-focus: #8B5CF6;
+  
+  --card-radius: 16px;
+  --btn-radius: 12px;
+}
+
+[data-theme="light"] {
+  --bg-main: #F8FAFC;
+  --bg-secondary: #F1F5F9;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #F8FAFC;
+  --bg-elevated: #FFFFFF;
+  
+  --accent-primary: #7C3AED;
+  --accent-strong: #6D28D9;
+  --accent-glow: rgba(124, 58, 237, 0.15);
+  --color-mint: #059669;
+  --color-mint-glow: rgba(5, 150, 105, 0.15);
+  --color-ruby: #DC2626;
+  --color-amber: #D97706;
+  
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #94A3B8;
+  
+  --border-subtle: #E2E8F0;
+  --border-active: #CBD5E1;
+  --border-focus: #7C3AED;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow-x: hidden;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  min-height: 100vh;
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-main);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-active);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-strong);
+}
+
+/* Card utilities */
+.flash-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--card-radius);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.flash-card-hover:hover {
+  border-color: var(--border-active);
+  background-color: var(--bg-card-hover);
+  box-shadow: 0 8px 24px -8px var(--accent-glow);
+}
+
+.flash-card-active {
+  border-color: var(--accent-strong);
+  box-shadow: 0 0 20px -4px var(--accent-glow);
+}
+
+/* Violet accent button */
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-strong) 0%, #7C3AED 100%);
+  color: #FFFFFF;
+  border-radius: var(--btn-radius);
+  font-weight: 600;
+  padding: 0.625rem 1.25rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px 0 var(--accent-glow);
+}
+.btn-primary:hover:not(:disabled) {
+  opacity: 0.95;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px 0 var(--accent-glow);
+}
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  border-radius: var(--btn-radius);
+  font-weight: 500;
+  padding: 0.625rem 1.25rem;
+  transition: all 0.2s ease;
+}
+.btn-secondary:hover:not(:disabled) {
+  border-color: var(--border-active);
+  background-color: var(--bg-card);
+}
+.btn-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Pulse animation for timer */
+@keyframes timer-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.02); }
+}
+
+.animate-timer-warning {
+  animation: timer-pulse 1s ease-in-out infinite;
+  color: var(--color-ruby) !important;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
