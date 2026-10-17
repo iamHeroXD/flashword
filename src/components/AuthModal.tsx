@@ -175,9 +175,9 @@ export function AuthModal() {
         {/* REGISTRATION RECOVERY CODE VIEW (Displayed once on success) */}
         {generatedRecoveryCode ? (
           <div className="space-y-4">
-            <div className="p-4 rounded-xl bg-purple-500/10 border border-purple-500/30 text-center">
-              <div className="w-10 h-10 rounded-full bg-purple-500/20 text-[var(--accent-primary)] flex items-center justify-center mx-auto mb-2">
-                <ShieldCheck className="w-6 h-6" />
+            <div className="p-4 rounded-xl bg-[var(--accent-subtle)] border border-[var(--border-active)] text-center">
+              <div className="w-10 h-10 rounded-full bg-[var(--accent-subtle)] text-[var(--accent-primary)] flex items-center justify-center mx-auto mb-2 border border-[var(--border-active)]">
+                <ShieldCheck className="w-5 h-5 text-[var(--accent-primary)]" />
               </div>
               <h3 className="text-base font-bold text-[var(--text-primary)]">Account Created!</h3>
               <p className="text-xs text-[var(--text-secondary)] mt-1">
@@ -422,7 +422,7 @@ export function AuthModal() {
             {/* RECOVERY FORM (Reset password via recovery code) */}
             {tab === "recover" && (
               <form onSubmit={handleRecover} className="space-y-3.5">
-                <div className="p-3 rounded-xl bg-purple-500/10 border border-purple-500/20 text-xs text-[var(--text-secondary)]">
+                <div className="p-3 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] text-xs text-[var(--text-secondary)]">
                   Enter your username and the recovery code you received during sign up to reset your password.
                 </div>
 

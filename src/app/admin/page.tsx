@@ -175,7 +175,7 @@ function AdminContent() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
           <div>
-            <div className="flex items-center gap-2 text-xs font-bold text-purple-400 mb-1">
+            <div className="flex items-center gap-2 text-xs font-bold text-[var(--accent-primary)] mb-1">
               <Shield className="w-4 h-4" />
               ADMIN CONTROL CENTER
             </div>

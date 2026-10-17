@@ -13,54 +13,40 @@ export function BrandLogo({ size = "md", href = "/", showTagline = false }: Bran
   const iconSizes = {
     sm: "w-6 h-6",
     md: "w-8 h-8",
-    lg: "w-11 h-11",
+    lg: "w-10 h-10",
   };
 
   const textSizes = {
-    sm: "text-lg",
-    md: "text-2xl",
-    lg: "text-3xl",
+    sm: "text-base",
+    md: "text-xl",
+    lg: "text-2xl",
   };
 
   const Content = (
     <div className="flex items-center gap-2.5 group cursor-pointer select-none">
       <div
-        className={`${iconSizes[size]} rounded-xl flex items-center justify-center relative overflow-hidden transition-all duration-300 group-hover:scale-105`}
-        style={{
-          background: "linear-gradient(135deg, #8B5CF6 0%, #6EE7B7 100%)",
-          boxShadow: "0 0 16px -2px rgba(139, 92, 246, 0.4)",
-        }}
+        className={`${iconSizes[size]} rounded-lg flex items-center justify-center bg-[#141720] border border-[#2C3445] text-[#F59E0B] transition-all duration-200 group-hover:border-[#F59E0B] group-hover:bg-[#1A1F2B]`}
       >
-        {/* Crisp lightning flash SVG */}
         <svg
           viewBox="0 0 24 24"
-          fill="none"
-          className="w-4/5 h-4/5 text-white drop-shadow-sm transition-transform duration-300 group-hover:rotate-6"
-          stroke="currentColor"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
+          fill="currentColor"
+          className="w-4 h-4 text-[#F59E0B] transition-transform duration-200 group-hover:scale-110"
         >
-          <path
-            d="M13 2L3 14H12L11 22L21 10H12L13 2Z"
-            fill="white"
-            stroke="none"
-          />
+          <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" />
         </svg>
       </div>
 
       <div className="flex flex-col">
-        <div className="flex items-center">
-          <span className={`${textSizes[size]} font-extrabold tracking-tight text-[var(--text-primary)] transition-colors`}>
-            Flash
+        <div className="flex items-center tracking-tight">
+          <span className={`${textSizes[size]} font-black text-white transition-colors`}>
+            FLASH
           </span>
-          <span className={`${textSizes[size]} font-extrabold tracking-tight text-[var(--accent-primary)] transition-colors`}>
-            word
+          <span className={`${textSizes[size]} font-black text-[#F59E0B] transition-colors`}>
+            WORD
           </span>
-          <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-mint)] ml-1 mb-2 animate-pulse" />
         </div>
         {showTagline && (
-          <span className="text-xs text-[var(--text-secondary)] -mt-1 font-medium tracking-wide">
+          <span className="text-[10px] text-[#94A3B8] font-medium tracking-wider uppercase -mt-0.5">
             Brain on the clock
           </span>
         )}

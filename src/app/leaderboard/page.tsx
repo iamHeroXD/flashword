@@ -244,7 +244,7 @@ function LeaderboardContent() {
                         <div className="flex items-center gap-1.5">
                           <span className="font-bold text-[var(--text-primary)]">{entry.displayName}</span>
                           {isCurrentUser && (
-                            <span className="px-1.5 py-0.5 rounded text-[9px] bg-purple-500/20 text-purple-300 font-bold">
+                            <span className="px-1.5 py-0.5 rounded text-[9px] bg-amber-500/20 text-amber-300 font-bold">
                               YOU
                             </span>
                           )}

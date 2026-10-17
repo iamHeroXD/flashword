@@ -74,6 +74,8 @@ function PlayContent() {
   const [submittedTypedWords, setSubmittedTypedWords] = useState<string[]>([]);
   const [recallStartTime, setRecallStartTime] = useState<number>(0);
 
+  const [activeRecallIdx, setActiveRecallIdx] = useState<number>(0);
+
   // Results state
   const [resultData, setResultData] = useState<{
     score: number;
@@ -82,6 +84,7 @@ function PlayContent() {
     speedBonus: number;
     difficultyMultiplier: number;
     xpEarned: number;
+    avgResponseTime?: number;
     newlyUnlocked: Array<{ name: string; icon: string; xpReward: number }>;
   } | null>(null);
 
@@ -297,13 +300,64 @@ function PlayContent() {
 
   // ----------------- RECALL STAGE LOGIC -----------------
 
-  const handleSelectChoice = (wordId: string, choiceText: string) => {
+  const handleSelectChoice = (wordId: string, choiceText: string, cardIndex?: number) => {
     sounds.tick(true);
     setUserAnswers((prev) => ({
       ...prev,
       [wordId]: choiceText,
     }));
+    if (typeof cardIndex === "number" && cardIndex + 1 < roundWords.length) {
+      setActiveRecallIdx(cardIndex + 1);
+    }
   };
+
+  // Keyboard controls for speed & flow
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+        return;
+      }
+
+      if (e.code === "Space") {
+        if (gameState === "idle") {
+          e.preventDefault();
+          startGame();
+        } else if (gameState === "showing_words") {
+          e.preventDefault();
+          togglePause();
+        } else if (gameState === "results") {
+          e.preventDefault();
+          handleNextRound();
+        }
+      } else if (e.code === "KeyR" && (gameState === "results" || gameState === "idle")) {
+        e.preventDefault();
+        startGame();
+      } else if (e.code === "KeyS" && gameState === "results") {
+        e.preventDefault();
+        resetGame();
+      } else if (e.code === "Escape") {
+        if (gameState === "showing_words" || gameState === "paused") {
+          e.preventDefault();
+          togglePause();
+        }
+      } else if (gameState === "recalling" && recallMethod === "choice") {
+        if (["Digit1", "Digit2", "Digit3", "Digit4", "Numpad1", "Numpad2", "Numpad3", "Numpad4"].includes(e.code)) {
+          const choiceIdx = parseInt(e.key, 10) - 1;
+          const currentCard = roundWords[activeRecallIdx] || roundWords[0];
+          if (currentCard && currentCard.choices && currentCard.choices[choiceIdx]) {
+            e.preventDefault();
+            handleSelectChoice(currentCard.id, currentCard.choices[choiceIdx], activeRecallIdx);
+          }
+        } else if (e.code === "Enter") {
+          e.preventDefault();
+          handleSubmitRecall();
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [gameState, activeRecallIdx, roundWords, recallMethod]);
 
   const handleAddTypedWord = (e: React.FormEvent) => {
     e.preventDefault();
@@ -408,10 +462,10 @@ function PlayContent() {
     if (accuracy >= 80) {
       sounds.roundComplete();
       confetti({
-        particleCount: 50,
-        spread: 60,
+        particleCount: 60,
+        spread: 70,
         origin: { y: 0.7 },
-        colors: ["#8B5CF6", "#6EE7B7", "#A78BFA"],
+        colors: ["#F59E0B", "#10B981", "#FBBF24", "#FFFFFF"],
       });
     } else {
       sounds.incorrect();
@@ -443,6 +497,7 @@ function PlayContent() {
           speedBonus: data.breakdown.speedBonus,
           difficultyMultiplier: data.breakdown.difficultyMultiplier,
           xpEarned: data.breakdown.xpEarned,
+          avgResponseTime,
           newlyUnlocked: data.newlyUnlockedAchievements || [],
         });
 
@@ -731,12 +786,14 @@ function PlayContent() {
 
         {/* ==================== 2. COUNTDOWN SCREEN ==================== */}
         {gameState === "countdown" && (
-          <div className="text-center animate-fadeIn py-16">
-            <span className="text-xs uppercase tracking-widest text-[var(--accent-primary)] font-semibold block mb-4">
-              GET READY TO FOCUS
+          <div className="text-center animate-fadeIn py-20 flex flex-col items-center">
+            <span className="text-xs uppercase tracking-widest text-[var(--accent-primary)] font-bold block mb-4">
+              FOCUS & MEMORIZE
             </span>
-            <div className="text-7xl sm:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-br from-[var(--accent-primary)] to-[var(--color-mint)] drop-shadow-lg scale-110 transition-transform">
-              {countdownNum === 0 ? "GO!" : countdownNum}
+            <div className="w-28 h-28 rounded-2xl border border-[var(--border-active)] bg-[var(--bg-secondary)] flex items-center justify-center shadow-xl">
+              <span className="text-6xl font-mono font-black text-white">
+                {countdownNum === 0 ? "GO" : countdownNum}
+              </span>
             </div>
           </div>
         )}
@@ -749,10 +806,11 @@ function PlayContent() {
               <div className="flex items-center gap-3">
                 <button
                   onClick={togglePause}
-                  className="p-2 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--border-active)] text-[var(--text-secondary)] hover:text-white transition-all"
+                  className="p-2 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--border-active)] text-[var(--text-secondary)] hover:text-white transition-all flex items-center gap-1.5"
                   title="Pause game"
                 >
                   <Pause className="w-4 h-4" />
+                  <span className="kbd-shortcut hidden sm:inline-block">Space</span>
                 </button>
                 <div>
                   <span className="text-xs font-bold text-[var(--accent-primary)] uppercase tracking-wider block">
@@ -765,9 +823,9 @@ function PlayContent() {
               </div>
 
               {/* Large Central Timer */}
-              <div className="flex items-center gap-2 px-4 py-1.5 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-subtle)] shadow-sm">
-                <Timer className={`w-5 h-5 ${timeRemaining <= 2 ? "text-red-400 animate-pulse" : "text-[var(--color-mint)]"}`} />
-                <span className={`text-2xl font-mono font-black tracking-wider ${timeRemaining <= 2 ? "text-red-400" : "text-[var(--text-primary)]"}`}>
+              <div className="flex items-center gap-2 px-4 py-1.5 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-active)] shadow-sm">
+                <Timer className={`w-4 h-4 ${timeRemaining <= 2 ? "text-red-400 animate-pulse" : "text-[var(--accent-primary)]"}`} />
+                <span className={`text-2xl font-mono font-black tracking-wider ${timeRemaining <= 2 ? "text-red-400" : "text-white"}`}>
                   {timeRemaining.toFixed(1)}s
                 </span>
               </div>
@@ -784,14 +842,16 @@ function PlayContent() {
             {/* Timer Progress Bar */}
             <div className="w-full max-w-4xl h-1.5 bg-[var(--border-subtle)] rounded-full mb-8 overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-[var(--accent-strong)] to-[var(--color-mint)] transition-all duration-75"
+                className={`h-full transition-all duration-75 ${
+                  timeRemaining <= 2 ? "bg-red-500" : "bg-[var(--accent-primary)]"
+                }`}
                 style={{ width: `${(timeRemaining / timerDurationRef.current) * 100}%` }}
               />
             </div>
 
             {/* Word Grid Layout depending on count */}
             <div
-              className={`w-full max-w-4xl gap-4 sm:gap-6 ${
+              className={`w-full max-w-4xl gap-3 sm:gap-4 ${
                 wordCount === 1
                   ? "flex items-center justify-center py-12"
                   : wordCount <= 5
@@ -804,20 +864,20 @@ function PlayContent() {
               {roundWords.map((item, index) => (
                 <div
                   key={item.id}
-                  className={`flash-card flex flex-col items-center justify-center text-center p-6 sm:p-7 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-md transition-all ${
-                    wordCount === 1 ? "max-w-md w-full py-12" : ""
+                  className={`flash-card flex flex-col items-center justify-center text-center p-6 sm:p-7 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-sm transition-all hover:border-[var(--border-active)] ${
+                    wordCount === 1 ? "max-w-md w-full py-14" : ""
                   }`}
                 >
-                  <span className="text-[10px] font-mono font-bold text-[var(--accent-primary)] mb-1">
-                    #{index + 1}
+                  <span className="text-[10px] font-mono font-bold text-[var(--accent-primary)] mb-1.5">
+                    {String(index + 1).padStart(2, "0")}
                   </span>
                   <div
-                    className={`font-black tracking-wide text-[var(--text-primary)] uppercase select-none ${
+                    className={`font-mono font-black tracking-wide text-white uppercase select-none ${
                       wordCount === 1
                         ? "text-3xl sm:text-5xl"
                         : wordCount <= 5
                         ? "text-xl sm:text-2xl"
-                        : "text-base sm:text-lg"
+                        : "text-sm sm:text-base"
                     }`}
                   >
                     {item.word}
@@ -857,57 +917,81 @@ function PlayContent() {
               <span className="text-xs uppercase tracking-widest text-[var(--color-mint)] font-bold block mb-1">
                 RECALL STAGE
               </span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-[var(--text-primary)]">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
                 What words were displayed?
               </h2>
               <p className="text-xs text-[var(--text-secondary)] mt-1">
                 {recallMethod === "choice"
-                  ? "Select the word you remember for each card position."
-                  : "Type each remembered word and hit Enter."}
+                  ? "Select the word you remember for each card position, or use keys [1]-[4]."
+                  : "Type each remembered word and press Enter."}
               </p>
             </div>
 
             {/* MULTIPLE CHOICE METHOD */}
             {recallMethod === "choice" && (
               <div className="w-full space-y-4 mb-8">
-                {roundWords.map((item, idx) => (
-                  <div
-                    key={item.id}
-                    className="flash-card p-4 sm:p-5 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-subtle)]"
-                  >
-                    <div className="flex items-center justify-between mb-3 text-xs text-[var(--text-muted)]">
-                      <span className="font-bold text-[var(--accent-primary)]">Position #{idx + 1}</span>
-                      <span>Select 1 of 4:</span>
-                    </div>
+                {roundWords.map((item, idx) => {
+                  const isCurrentActive = activeRecallIdx === idx;
+                  return (
+                    <div
+                      key={item.id}
+                      onClick={() => setActiveRecallIdx(idx)}
+                      className={`flash-card p-4 sm:p-5 rounded-xl bg-[var(--bg-secondary)] border transition-all ${
+                        isCurrentActive ? "border-[var(--border-focus)] shadow-md" : "border-[var(--border-subtle)]"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between mb-3 text-xs text-[var(--text-muted)]">
+                        <span className="font-bold text-[var(--accent-primary)] font-mono">
+                          POSITION #{String(idx + 1).padStart(2, "0")}
+                        </span>
+                        <span className="text-[11px]">Select 1 of 4:</span>
+                      </div>
 
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                      {item.choices.map((choice) => {
-                        const selected = userAnswers[item.id] === choice;
-                        return (
-                          <button
-                            key={choice}
-                            type="button"
-                            onClick={() => handleSelectChoice(item.id, choice)}
-                            className={`p-3 rounded-xl text-xs sm:text-sm font-bold border transition-all text-center ${
-                              selected
-                                ? "border-[var(--accent-strong)] bg-[var(--accent-strong)] text-white shadow-md scale-102"
-                                : "border-[var(--border-subtle)] bg-[var(--bg-card)] text-[var(--text-secondary)] hover:border-[var(--border-active)] hover:text-white"
-                            }`}
-                          >
-                            {choice}
-                          </button>
-                        );
-                      })}
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                        {item.choices.map((choice, choiceIdx) => {
+                          const selected = userAnswers[item.id] === choice;
+                          return (
+                            <button
+                              key={choice}
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleSelectChoice(item.id, choice, idx);
+                              }}
+                              className={`p-3 rounded-lg text-xs sm:text-sm font-bold border transition-all text-center relative flex items-center justify-center ${
+                                selected
+                                  ? "border-[var(--accent-primary)] bg-[var(--accent-primary)] text-black font-extrabold shadow-sm scale-102"
+                                  : "border-[var(--border-subtle)] bg-[var(--bg-card)] text-[var(--text-secondary)] hover:border-[var(--border-active)] hover:text-white"
+                              }`}
+                            >
+                              <span className="absolute top-1.5 left-2 text-[9px] font-mono opacity-50">
+                                {choiceIdx + 1}
+                              </span>
+                              <span>{choice}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
+
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2 text-xs text-[var(--text-muted)]">
+                  <span>
+                    Hotkeys: Use <span className="kbd-shortcut">1</span>-<span className="kbd-shortcut">4</span> to select answers & advance.
+                  </span>
+                  <span className="font-semibold text-white">
+                    Answered: {Object.keys(userAnswers).length} / {roundWords.length}
+                  </span>
+                </div>
 
                 <button
                   type="button"
                   onClick={handleSubmitRecall}
-                  className="w-full btn-primary py-3.5 text-base font-bold shadow-lg"
+                  className="w-full btn-primary py-3.5 text-base font-bold shadow-md flex items-center justify-center gap-2"
                 >
-                  Submit Answers & View Score
+                  <span>Submit Answers & View Score</span>
+                  <span className="kbd-shortcut bg-black/10 border-black/20 text-black">Enter</span>
                 </button>
               </div>
             )}
@@ -973,59 +1057,76 @@ function PlayContent() {
 
         {/* ==================== 6. RESULTS SCREEN ==================== */}
         {gameState === "results" && resultData && (
-          <div className="w-full max-w-2xl animate-fadeIn space-y-6">
-            {/* Header Banner */}
-            <div className="p-6 sm:p-8 rounded-3xl flash-card bg-gradient-to-br from-purple-900/30 via-[var(--bg-secondary)] to-[var(--bg-card)] border border-[var(--border-active)] shadow-2xl text-center relative overflow-hidden">
-              <div className="text-xs font-bold uppercase tracking-wider text-[var(--accent-primary)] mb-1">
+          <div className="w-full max-w-2xl animate-fadeIn space-y-5">
+            {/* Header Tier Banner */}
+            <div className="p-6 sm:p-8 rounded-2xl flash-card bg-[var(--bg-secondary)] border border-[var(--border-active)] shadow-xl text-center relative overflow-hidden">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--bg-card)] border border-[var(--border-subtle)] text-xs font-bold text-[var(--accent-primary)] mb-4">
+                <Sparkles className="w-3.5 h-3.5" />
                 ROUND COMPLETE
               </div>
-              <h2 className="text-4xl sm:text-5xl font-black text-[var(--text-primary)] tracking-tight mb-2">
-                {resultData.score} Points
-              </h2>
 
-              <div className="flex items-center justify-center gap-2 text-sm font-semibold text-[var(--color-mint)]">
-                <Sparkles className="w-4 h-4" />
-                <span>+{resultData.xpEarned} XP Earned</span>
+              <div className="flex items-center justify-center gap-5 my-2">
+                <div className="w-16 h-16 rounded-2xl border-2 border-[var(--accent-primary)]/40 bg-[var(--bg-card)] flex flex-col items-center justify-center shadow-md">
+                  <span className="text-3xl font-mono font-black text-[var(--accent-primary)] leading-none">
+                    {resultData.accuracy === 100 ? "S" : resultData.accuracy >= 80 ? "A" : resultData.accuracy >= 60 ? "B" : resultData.accuracy >= 40 ? "C" : "D"}
+                  </span>
+                  <span className="text-[8px] font-bold uppercase text-[var(--text-muted)] mt-0.5">Tier</span>
+                </div>
+                <div className="text-left">
+                  <h2 className="text-3xl sm:text-4xl font-mono font-black text-white tracking-tight">
+                    {resultData.score} PTS
+                  </h2>
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="text-xs font-semibold text-[var(--color-mint)]">
+                      +{resultData.xpEarned} XP Earned
+                    </span>
+                    {typeof resultData.avgResponseTime === "number" && (
+                      <span className="text-xs font-mono text-[var(--text-muted)]">
+                        • {resultData.avgResponseTime}ms / word
+                      </span>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
 
             {/* Score Breakdown Cards */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              <div className="p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-subtle)] text-center">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <div className="p-3.5 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-subtle)] text-center">
                 <span className="text-[10px] font-bold text-[var(--text-muted)] uppercase block mb-1">Accuracy</span>
-                <span className="text-xl font-extrabold text-[var(--text-primary)]">{resultData.accuracy}%</span>
+                <span className="text-xl font-mono font-black text-white">{resultData.accuracy}%</span>
               </div>
-              <div className="p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-subtle)] text-center">
+              <div className="p-3.5 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-subtle)] text-center">
                 <span className="text-[10px] font-bold text-[var(--text-muted)] uppercase block mb-1">Difficulty</span>
-                <span className="text-xl font-extrabold text-[var(--text-primary)]">{resultData.difficultyMultiplier}x</span>
+                <span className="text-xl font-mono font-black text-white">{resultData.difficultyMultiplier}x</span>
               </div>
-              <div className="p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-subtle)] text-center">
+              <div className="p-3.5 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-subtle)] text-center">
                 <span className="text-[10px] font-bold text-[var(--text-muted)] uppercase block mb-1">Speed Bonus</span>
-                <span className="text-xl font-extrabold text-amber-400">+{resultData.speedBonus}</span>
+                <span className="text-xl font-mono font-black text-[var(--accent-primary)]">+{resultData.speedBonus}</span>
               </div>
-              <div className="p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-subtle)] text-center">
+              <div className="p-3.5 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-subtle)] text-center">
                 <span className="text-[10px] font-bold text-[var(--text-muted)] uppercase block mb-1">Mode</span>
-                <span className="text-xl font-extrabold text-[var(--accent-primary)] capitalize">{mode}</span>
+                <span className="text-xl font-mono font-bold text-white capitalize">{mode}</span>
               </div>
             </div>
 
             {/* Unlocked Achievements Banner */}
             {resultData.newlyUnlocked.length > 0 && (
-              <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-300">
+              <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300">
                 <div className="flex items-center gap-2 mb-2 font-bold text-sm">
-                  <Award className="w-5 h-5 text-amber-400" />
+                  <Award className="w-4 h-4 text-amber-400" />
                   <span>Achievement Unlocked!</span>
                 </div>
                 {resultData.newlyUnlocked.map((ach) => (
                   <div key={ach.name} className="text-xs text-[var(--text-secondary)]">
-                    <strong className="text-[var(--text-primary)]">{ach.name}</strong> — +{ach.xpReward} XP
+                    <strong className="text-white">{ach.name}</strong> — +{ach.xpReward} XP
                   </div>
                 ))}
               </div>
             )}
 
             {/* Word Review List */}
-            <div className="p-5 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-subtle)]">
+            <div className="p-5 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-subtle)]">
               <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)] mb-3">
                 Round Word Review
               </h3>
@@ -1033,7 +1134,7 @@ function PlayContent() {
                 {roundWords.map((item) => (
                   <div key={item.id} className="py-2.5 flex items-center justify-between text-xs">
                     <div>
-                      <span className="font-bold text-[var(--text-primary)] mr-2">{item.word}</span>
+                      <span className="font-bold text-white mr-2">{item.word}</span>
                       <span className="text-[10px] text-[var(--text-muted)]">{item.definition}</span>
                     </div>
                   </div>
@@ -1042,21 +1143,21 @@ function PlayContent() {
             </div>
 
             {/* Actions */}
-            <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex flex-col sm:flex-row gap-2.5">
               <button
                 type="button"
                 onClick={handleNextRound}
                 className="flex-1 btn-primary py-3 text-sm font-bold flex items-center justify-center gap-2"
               >
                 <Play className="w-4 h-4 fill-current" />
-                Play Again
+                Play Again <span className="kbd-shortcut bg-black/10 border-black/20 text-black">Space</span>
               </button>
               <button
                 type="button"
                 onClick={resetGame}
-                className="btn-secondary py-3 px-6 text-xs font-semibold"
+                className="btn-secondary py-3 px-6 text-xs font-semibold flex items-center justify-center gap-2"
               >
-                Change Settings
+                Change Settings <span className="kbd-shortcut">S</span>
               </button>
             </div>
           </div>

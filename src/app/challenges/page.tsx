@@ -78,7 +78,7 @@ function ChallengesContent() {
         </div>
 
         {/* 1. DAILY CHALLENGE HERO CARD */}
-        <div className="p-6 sm:p-8 rounded-3xl flash-card bg-gradient-to-br from-purple-900/40 via-[var(--bg-secondary)] to-[var(--bg-card)] border border-purple-500/30 shadow-2xl mb-8 relative overflow-hidden">
+        <div className="p-6 sm:p-8 rounded-2xl flash-card bg-[var(--bg-secondary)] border border-[var(--border-active)] shadow-xl mb-8 relative overflow-hidden">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 relative z-10">
             <div>
               <div className="flex items-center gap-2 text-xs font-mono font-bold text-amber-400 mb-1">

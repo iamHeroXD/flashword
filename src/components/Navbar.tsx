@@ -124,8 +124,8 @@ export function Navbar() {
             {user?.role === "admin" && (
               <Link
                 href="/admin"
-                className={`hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-purple-500/30 text-xs font-semibold bg-purple-500/10 text-purple-400 hover:bg-purple-500/20 transition-all ${
-                  pathname === "/admin" ? "ring-2 ring-purple-500/40" : ""
+                className={`hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-amber-500/30 text-xs font-semibold bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 transition-all ${
+                  pathname === "/admin" ? "ring-1 ring-amber-500/50" : ""
                 }`}
                 title="Admin Control Center"
               >

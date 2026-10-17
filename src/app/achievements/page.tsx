@@ -114,7 +114,7 @@ function AchievementsContent() {
                 key={ach.id}
                 className={`p-5 rounded-2xl flash-card border transition-all ${
                   isUnlocked
-                    ? "bg-[var(--bg-card)] border-purple-500/30 shadow-md"
+                    ? "bg-[var(--bg-card)] border-[var(--border-active)] shadow-sm"
                     : "bg-[var(--bg-secondary)]/60 border-[var(--border-subtle)] opacity-70"
                 }`}
               >

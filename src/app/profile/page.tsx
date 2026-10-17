@@ -188,9 +188,9 @@ function ProfileContent() {
 
       <main className="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-8 space-y-8">
         {/* DASHBOARD HERO */}
-        <div className="p-6 sm:p-8 rounded-3xl flash-card bg-gradient-to-br from-purple-900/30 via-[var(--bg-secondary)] to-[var(--bg-card)] border border-[var(--border-subtle)] shadow-xl flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div className="p-6 sm:p-8 rounded-2xl flash-card bg-[var(--bg-secondary)] border border-[var(--border-active)] shadow-xl flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-4 text-center sm:text-left">
-            <div className="w-16 h-16 rounded-2xl bg-[var(--accent-glow)] border border-[var(--accent-strong)]/40 flex items-center justify-center text-4xl shadow-md">
+            <div className="w-16 h-16 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] flex items-center justify-center text-4xl shadow-sm">
               {user.avatar || "⚡"}
             </div>
             <div>
@@ -276,7 +276,7 @@ function ProfileContent() {
           </div>
 
           <div className="p-4 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-subtle)] text-center">
-            <div className="flex items-center justify-center text-purple-400 mb-1">
+            <div className="flex items-center justify-center text-[var(--color-mint)] mb-1">
               <Award className="w-5 h-5" />
             </div>
             <span className="text-2xl font-black text-[var(--text-primary)] font-mono">
@@ -298,7 +298,7 @@ function ProfileContent() {
             </h2>
 
             {profileMsg && (
-              <div className="mb-4 p-2.5 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs">
+              <div className="mb-4 p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs">
                 {profileMsg}
               </div>
             )}
