@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Forbidden: Admin access required." }, { status: 403 });
     }
 
-    const { searchParams } = new URL(req.url);
+    const searchParams = req.nextUrl.searchParams;
     const categoryId = searchParams.get("categoryId") || "all";
     const search = searchParams.get("search") || "";
     const limit = parseInt(searchParams.get("limit") || "50", 10);
@@ -17,7 +17,10 @@ export async function GET(req: NextRequest) {
 
     const result = getAllWordsAdmin({ categoryId, search, limit, offset });
     return NextResponse.json(result);
-  } catch (error) {
+  } catch (error: any) {
+    if (error?.digest === 'NEXT_PRERENDER_INTERRUPTED' || error?.message?.includes('bail out of prerendering')) {
+      throw error;
+    }
     console.error("Admin words error:", error);
     return NextResponse.json({ error: "Server error." }, { status: 500 });
   }

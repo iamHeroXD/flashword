@@ -122,7 +122,7 @@ function ChallengesContent() {
                 </div>
               ) : (
                 <Link
-                  href="/play"
+                  href="/play?mode=daily"
                   className="w-full sm:w-auto btn-primary py-3.5 px-8 text-base font-bold flex items-center justify-center gap-2 shadow-xl"
                 >
                   <Play className="w-5 h-5 fill-current" />
@@ -148,7 +148,7 @@ function ChallengesContent() {
             </div>
 
             <Link
-              href="/play"
+              href="/play?mode=speed"
               className="btn-secondary py-2.5 text-xs font-bold text-center block"
             >
               Launch Speed Rush
@@ -163,12 +163,12 @@ function ChallengesContent() {
               </div>
               <h3 className="text-xl font-bold text-[var(--text-primary)] mb-2">Endurance Survival</h3>
               <p className="text-xs text-[var(--text-secondary)] leading-relaxed mb-6">
-                Infinite rounds. Achieve at least 80% recall accuracy on each round to stay alive. A single failure drops your streak back to zero.
+                3 Hearts. Infinite rounds. Achieve at least 80% recall accuracy to keep your lives. How many stages can you survive?
               </p>
             </div>
 
             <Link
-              href="/play"
+              href="/play?mode=survival"
               className="btn-secondary py-2.5 text-xs font-bold text-center block"
             >
               Launch Survival Mode

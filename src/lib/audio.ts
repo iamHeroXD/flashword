@@ -73,6 +73,10 @@ class SoundEffects {
     this.playTone(high ? 880 : 440, "sine", 0.08, 0.1);
   }
 
+  public click() {
+    this.playTone(950, "sine", 0.03, 0.05);
+  }
+
   public start() {
     if (!this.enabled) return;
     this.playTone(523.25, "sine", 0.12, 0.15);
@@ -90,9 +94,25 @@ class SoundEffects {
     setTimeout(() => this.playTone(880, "sine", 0.18, 0.2), 80);
   }
 
+  public combo(streak: number) {
+    if (!this.enabled) return;
+    const baseFreqs = [523.25, 587.33, 659.25, 698.46, 783.99, 880, 987.77, 1046.5];
+    const freq = baseFreqs[Math.min(streak - 1, baseFreqs.length - 1)] || 523.25;
+    this.playTone(freq, "sine", 0.15, 0.18);
+    if (streak >= 3) {
+      setTimeout(() => this.playTone(freq * 1.25, "triangle", 0.18, 0.15), 60);
+    }
+  }
+
   public incorrect() {
     if (!this.enabled) return;
     this.playTone(180, "sawtooth", 0.15, 0.12);
+  }
+
+  public heartLoss() {
+    if (!this.enabled) return;
+    this.playTone(150, "sawtooth", 0.18, 0.15);
+    setTimeout(() => this.playTone(110, "sawtooth", 0.25, 0.18), 120);
   }
 
   public roundComplete() {

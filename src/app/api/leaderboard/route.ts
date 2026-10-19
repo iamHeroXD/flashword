@@ -4,7 +4,7 @@ import { getCurrentUser } from "@/lib/auth";
 
 export async function GET(req: NextRequest) {
   try {
-    const { searchParams } = new URL(req.url);
+    const searchParams = req.nextUrl.searchParams;
     const period = (searchParams.get("period") || "all_time") as "all_time" | "weekly" | "monthly" | "daily";
     const user = await getCurrentUser();
 
@@ -54,7 +54,10 @@ export async function GET(req: NextRequest) {
       entries,
       currentUserRank: userRank,
     });
-  } catch (error) {
+  } catch (error: any) {
+    if (error?.digest === 'NEXT_PRERENDER_INTERRUPTED' || error?.message?.includes('bail out of prerendering')) {
+      throw error;
+    }
     console.error("Leaderboard error:", error);
     return NextResponse.json({ error: "Failed to fetch leaderboard." }, { status: 500 });
   }
