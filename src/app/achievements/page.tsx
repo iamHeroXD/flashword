@@ -61,32 +61,32 @@ function AchievementsContent() {
       <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-8">
         {/* Header */}
         <div className="text-center mb-10">
-          <div className="clay-badge text-[var(--accent-primary)] mb-3">
-            <Award className="w-3.5 h-3.5" />
+          <div className="clay-badge text-zinc-300 mb-3 bg-zinc-900 border-white/10">
+            <Award className="w-3.5 h-3.5 text-red-500" />
             Milestones & Honors
           </div>
-          <h1 className="text-3xl sm:text-5xl font-black text-[var(--text-primary)] tracking-tight drop-shadow-sm">
+          <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
             Achievements
           </h1>
-          <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-2 max-w-md mx-auto leading-relaxed">
+          <p className="text-xs sm:text-sm text-zinc-400 mt-2 max-w-md mx-auto leading-relaxed">
             Earn bonus XP and unlock prestige badges by demonstrating speed, memory mastery, and discipline.
           </p>
         </div>
 
         {/* Progress Card */}
-        <div className="p-7 rounded-3xl clay-card bg-[var(--bg-secondary)] border border-[var(--border-subtle)] mb-10 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-[var(--clay-card-shadow)]">
+        <div className="p-6 sm:p-7 rounded-2xl bg-zinc-950 border border-white/10 mb-10 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="w-full sm:w-auto">
             <div className="flex items-center gap-3 mb-2.5">
-              <span className="text-3xl font-black text-[var(--text-primary)] font-mono">
+              <span className="text-3xl font-black text-white font-mono">
                 {totalUnlocked} / {totalPossible}
               </span>
-              <span className="text-xs font-black text-[var(--color-mint)]">
+              <span className="text-xs font-bold text-zinc-400">
                 ({percentComplete}% Unlocked)
               </span>
             </div>
-            <div className="w-full sm:w-72 h-3 bg-[var(--bg-card)] rounded-full overflow-hidden shadow-[var(--clay-sunken-shadow)] border border-[var(--border-subtle)]">
+            <div className="w-full sm:w-72 h-2.5 bg-zinc-900 rounded-full overflow-hidden border border-white/10">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-[#F59E0B] via-[#FBBF24] to-[#10B981] shadow-[0_2px_8px_rgba(245,158,11,0.5)] transition-all"
+                className="h-full rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.7)] transition-all"
                 style={{ width: `${percentComplete}%` }}
               />
             </div>
@@ -95,7 +95,7 @@ function AchievementsContent() {
           {!user && (
             <button
               onClick={() => openAuthModal("register")}
-              className="clay-btn-primary text-xs font-extrabold py-3 px-6 rounded-2xl"
+              className="btn-primary text-xs font-bold py-2.5 px-6 rounded-xl"
             >
               Sign up to save achievements
             </button>
@@ -112,37 +112,37 @@ function AchievementsContent() {
             return (
               <div
                 key={ach.id}
-                className={`p-6 rounded-3xl clay-card transition-all ${
+                className={`p-6 rounded-2xl transition-all ${
                   isUnlocked
-                    ? "clay-card-interactive bg-[var(--bg-card)] border border-[var(--border-active)] shadow-[var(--clay-card-shadow)]"
-                    : "bg-[var(--bg-secondary)]/70 border border-[var(--border-subtle)] opacity-70"
+                    ? "bg-zinc-900 border border-white/15 hover:border-white/30"
+                    : "bg-zinc-950/60 border border-white/5 opacity-50"
                 }`}
               >
                 <div className="flex items-start justify-between mb-4">
                   <div
-                    className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all ${
+                    className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${
                       isUnlocked
-                        ? "bg-gradient-to-br from-[#F59E0B] to-[#D97706] text-[#0B0F19] shadow-[0_4px_12px_rgba(245,158,11,0.4),inset_1px_1px_2px_rgba(255,255,255,0.6)] scale-105"
-                        : "bg-[var(--bg-card)] text-[var(--text-muted)] shadow-[var(--clay-pill-shadow)]"
+                        ? "bg-white text-black shadow-md"
+                        : "bg-zinc-900 border border-white/10 text-zinc-600"
                     }`}
                   >
-                    {isUnlocked ? <Icon className="w-6 h-6 stroke-[2.5]" /> : <Lock className="w-5 h-5" />}
+                    {isUnlocked ? <Icon className="w-5 h-5 text-black stroke-[2.5]" /> : <Lock className="w-4 h-4" />}
                   </div>
 
-                  <span className="text-[10px] font-mono font-black text-[var(--color-mint)] px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 shadow-[var(--clay-pill-shadow)]">
+                  <span className="text-[10px] font-mono font-bold text-zinc-300 px-2.5 py-1 rounded bg-zinc-800 border border-white/10">
                     +{ach.xpReward} XP
                   </span>
                 </div>
 
-                <h3 className="text-base font-black text-[var(--text-primary)] mb-1.5">
+                <h3 className="text-base font-bold text-white mb-1.5">
                   {ach.name}
                 </h3>
-                <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
+                <p className="text-xs text-zinc-400 leading-relaxed">
                   {ach.description}
                 </p>
 
                 {isUnlocked && userAch && (
-                  <div className="mt-4 pt-3 border-t border-[var(--border-subtle)] text-[10px] text-[var(--color-mint)] font-bold">
+                  <div className="mt-4 pt-3 border-t border-white/10 text-[10px] text-green-400 font-bold">
                     ✓ Unlocked on {new Date(userAch.unlockedAt).toLocaleDateString()}
                   </div>
                 )}

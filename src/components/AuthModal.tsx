@@ -13,7 +13,6 @@ import {
   Copy,
   Check,
   AlertCircle,
-  Sparkles,
 } from "lucide-react";
 
 const AVATAR_OPTIONS = ["⚡", "🧠", "🚀", "🎯", "🔥", "🏆", "💎", "🌟", "🦊", "🐉", "🪐", "⚔️"];
@@ -140,7 +139,7 @@ export function AuthModal() {
         }, 2000);
       }
     } catch {
-      setError("An unexpected error occurred.");
+      setError("Network error. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -153,12 +152,12 @@ export function AuthModal() {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-fadeIn">
-      <div className="relative w-full max-w-md clay-card bg-[var(--bg-secondary)] border border-[var(--border-subtle)] p-7 sm:p-9 shadow-2xl rounded-3xl overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
+      <div className="relative w-full max-w-md bg-zinc-950 border border-white/10 p-7 sm:p-8 shadow-2xl rounded-2xl overflow-hidden">
         {/* Close Button */}
         <button
           onClick={closeAuthModal}
-          className="absolute top-4 right-4 p-2.5 rounded-2xl clay-card bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-white shadow-[var(--clay-pill-shadow)] transition-colors"
+          className="absolute top-4 right-4 p-2 rounded-lg bg-zinc-900 border border-white/10 text-zinc-400 hover:text-white transition-colors"
           aria-label="Close dialog"
         >
           <X className="w-4 h-4" />
@@ -167,7 +166,7 @@ export function AuthModal() {
         {/* Modal Brand Header */}
         <div className="flex flex-col items-center text-center mb-6">
           <BrandLogo size="md" href="" />
-          <p className="text-xs text-[var(--text-secondary)] mt-2 font-medium">
+          <p className="text-xs text-zinc-400 mt-2 font-medium">
             Username-only authentication. No email required.
           </p>
         </div>
@@ -175,32 +174,32 @@ export function AuthModal() {
         {/* REGISTRATION RECOVERY CODE VIEW (Displayed once on success) */}
         {generatedRecoveryCode ? (
           <div className="space-y-4">
-            <div className="p-5 rounded-3xl clay-card bg-[var(--accent-subtle)] border border-[var(--border-active)] text-center shadow-[var(--clay-pill-shadow)]">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#F59E0B] to-[#D97706] text-[#0B0F19] flex items-center justify-center mx-auto mb-2.5 shadow-[0_4px_12px_rgba(245,158,11,0.35),inset_1px_1px_2px_rgba(255,255,255,0.6)]">
+            <div className="p-5 rounded-xl bg-zinc-900 border border-white/15 text-center">
+              <div className="w-12 h-12 rounded-xl bg-white text-black flex items-center justify-center mx-auto mb-2.5">
                 <ShieldCheck className="w-6 h-6 stroke-[2.5]" />
               </div>
-              <h3 className="text-base font-black text-[var(--text-primary)]">Account Created!</h3>
-              <p className="text-xs text-[var(--text-secondary)] mt-1.5 leading-relaxed font-medium">
+              <h3 className="text-base font-bold text-white">Account Created!</h3>
+              <p className="text-xs text-zinc-400 mt-1.5 leading-relaxed font-medium">
                 Because we do not store emails, save this recovery code safely. You will need it if you ever forget your password.
               </p>
             </div>
 
-            <div className="p-4 rounded-2xl clay-card bg-[var(--bg-card)] border border-[var(--border-active)] flex items-center justify-between shadow-[var(--clay-sunken-shadow)]">
-              <code className="text-sm font-mono font-black tracking-wider text-[var(--color-mint)]">
+            <div className="p-4 rounded-xl bg-zinc-900 border border-white/20 flex items-center justify-between">
+              <code className="text-sm font-mono font-bold tracking-wider text-green-400">
                 {generatedRecoveryCode}
               </code>
               <button
                 onClick={() => copyToClipboard(generatedRecoveryCode)}
-                className="p-2 px-3 rounded-xl clay-btn-secondary text-xs font-bold flex items-center gap-1.5"
+                className="p-2 px-3 rounded-lg btn-secondary text-xs font-bold flex items-center gap-1.5"
               >
-                {copiedCode ? <Check className="w-4 h-4 text-emerald-400 stroke-[3]" /> : <Copy className="w-4 h-4" />}
+                {copiedCode ? <Check className="w-4 h-4 text-green-400 stroke-[3]" /> : <Copy className="w-4 h-4" />}
                 {copiedCode ? "Copied" : "Copy"}
               </button>
             </div>
 
             <button
               onClick={closeAuthModal}
-              className="w-full clay-btn-primary py-3.5 text-sm font-extrabold rounded-2xl mt-2"
+              className="w-full btn-primary py-3 text-sm font-bold rounded-xl mt-2"
             >
               I have saved my code — Let&apos;s Play!
             </button>
@@ -208,17 +207,17 @@ export function AuthModal() {
         ) : (
           <>
             {/* Tabs */}
-            <div className="flex p-1.5 rounded-full clay-card bg-[var(--bg-card)] border border-[var(--border-subtle)] mb-6 shadow-[var(--clay-pill-shadow)]">
+            <div className="flex p-1 rounded-xl bg-zinc-900 border border-white/10 mb-6">
               <button
                 type="button"
                 onClick={() => {
                   setTab("login");
                   setError(null);
                 }}
-                className={`flex-1 py-2 text-xs font-black rounded-full transition-all ${
+                className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${
                   tab === "login"
-                    ? "bg-gradient-to-r from-[#F59E0B] to-[#D97706] text-[#0B0F19] shadow-[0_4px_10px_rgba(245,158,11,0.35),inset_1px_1px_2px_rgba(255,255,255,0.6)]"
-                    : "text-[var(--text-secondary)] hover:text-white"
+                    ? "bg-white text-black shadow-sm"
+                    : "text-zinc-400 hover:text-white"
                 }`}
               >
                 Log In
@@ -229,10 +228,10 @@ export function AuthModal() {
                   setTab("register");
                   setError(null);
                 }}
-                className={`flex-1 py-2 text-xs font-black rounded-full transition-all ${
+                className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${
                   tab === "register"
-                    ? "bg-gradient-to-r from-[#F59E0B] to-[#D97706] text-[#0B0F19] shadow-[0_4px_10px_rgba(245,158,11,0.35),inset_1px_1px_2px_rgba(255,255,255,0.6)]"
-                    : "text-[var(--text-secondary)] hover:text-white"
+                    ? "bg-white text-black shadow-sm"
+                    : "text-zinc-400 hover:text-white"
                 }`}
               >
                 Sign Up
@@ -241,7 +240,7 @@ export function AuthModal() {
 
             {/* Error Message */}
             {error && (
-              <div className="mb-4 p-3 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-400 text-xs flex items-center gap-2 font-bold">
+              <div className="mb-4 p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-xs flex items-center gap-2 font-bold">
                 <AlertCircle className="w-4 h-4 shrink-0" />
                 <span>{error}</span>
               </div>
@@ -249,7 +248,7 @@ export function AuthModal() {
 
             {/* Success Message */}
             {recoverySuccessMessage && (
-              <div className="mb-4 p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs flex items-center gap-2 font-bold">
+              <div className="mb-4 p-3 rounded-xl bg-green-500/10 border border-green-500/30 text-green-400 text-xs flex items-center gap-2 font-bold">
                 <Check className="w-4 h-4 shrink-0" />
                 <span>{recoverySuccessMessage}</span>
               </div>
@@ -259,11 +258,11 @@ export function AuthModal() {
             {tab === "login" && (
               <form onSubmit={handleLogin} className="space-y-4">
                 <div>
-                  <label className="block text-xs font-extrabold text-[var(--text-secondary)] mb-1.5">
+                  <label className="block text-xs font-bold text-zinc-400 mb-1.5">
                     Username
                   </label>
                   <div className="relative">
-                    <User className="absolute left-3.5 top-3 w-4 h-4 text-[var(--text-muted)]" />
+                    <User className="absolute left-3.5 top-3 w-4 h-4 text-zinc-500" />
                     <input
                       type="text"
                       required
@@ -271,14 +270,14 @@ export function AuthModal() {
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
                       placeholder="e.g. speedreader"
-                      className="w-full pl-10 pr-3 py-2.5 text-xs rounded-2xl clay-input text-[var(--text-primary)] font-bold transition-colors"
+                      className="w-full pl-10 pr-3 py-2.5 text-xs rounded-xl bg-zinc-900 border border-white/10 text-white font-bold focus:border-white focus:outline-none"
                     />
                   </div>
                 </div>
 
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
-                    <label className="text-xs font-extrabold text-[var(--text-secondary)]">
+                    <label className="text-xs font-bold text-zinc-400">
                       Password
                     </label>
                     <button
@@ -287,13 +286,13 @@ export function AuthModal() {
                         setTab("recover");
                         setError(null);
                       }}
-                      className="text-[11px] text-[var(--accent-primary)] font-bold hover:underline"
+                      className="text-[11px] text-red-400 font-bold hover:underline"
                     >
                       Forgot password?
                     </button>
                   </div>
                   <div className="relative">
-                    <Lock className="absolute left-3.5 top-3 w-4 h-4 text-[var(--text-muted)]" />
+                    <Lock className="absolute left-3.5 top-3 w-4 h-4 text-zinc-500" />
                     <input
                       type="password"
                       required
@@ -301,7 +300,7 @@ export function AuthModal() {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="••••••••"
-                      className="w-full pl-10 pr-3 py-2.5 text-xs rounded-2xl clay-input text-[var(--text-primary)] font-bold transition-colors"
+                      className="w-full pl-10 pr-3 py-2.5 text-xs rounded-xl bg-zinc-900 border border-white/10 text-white font-bold focus:border-white focus:outline-none"
                     />
                   </div>
                 </div>
@@ -309,7 +308,7 @@ export function AuthModal() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full clay-btn-primary py-3 text-sm font-extrabold rounded-2xl mt-3 flex items-center justify-center gap-2"
+                  className="w-full btn-primary py-3 text-sm font-bold rounded-xl mt-3 flex items-center justify-center gap-2"
                 >
                   {loading ? "Authenticating..." : "Log In"}
                 </button>
@@ -320,11 +319,11 @@ export function AuthModal() {
             {tab === "register" && (
               <form onSubmit={handleRegister} className="space-y-3.5">
                 <div>
-                  <label className="block text-xs font-extrabold text-[var(--text-secondary)] mb-1.5">
+                  <label className="block text-xs font-bold text-zinc-400 mb-1.5">
                     Choose Username
                   </label>
                   <div className="relative">
-                    <User className="absolute left-3.5 top-3 w-4 h-4 text-[var(--text-muted)]" />
+                    <User className="absolute left-3.5 top-3 w-4 h-4 text-zinc-500" />
                     <input
                       type="text"
                       required
@@ -332,14 +331,14 @@ export function AuthModal() {
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
                       placeholder="letters, numbers, 3-20 chars"
-                      className="w-full pl-10 pr-3 py-2.5 text-xs rounded-2xl clay-input text-[var(--text-primary)] font-bold transition-colors"
+                      className="w-full pl-10 pr-3 py-2.5 text-xs rounded-xl bg-zinc-900 border border-white/10 text-white font-bold focus:border-white focus:outline-none"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-extrabold text-[var(--text-secondary)] mb-1.5">
+                    <label className="block text-xs font-bold text-zinc-400 mb-1.5">
                       Display Name
                     </label>
                     <input
@@ -347,21 +346,21 @@ export function AuthModal() {
                       value={displayName}
                       onChange={(e) => setDisplayName(e.target.value)}
                       placeholder="Optional"
-                      className="w-full px-3.5 py-2.5 text-xs rounded-2xl clay-input text-[var(--text-primary)] font-bold transition-colors"
+                      className="w-full px-3.5 py-2.5 text-xs rounded-xl bg-zinc-900 border border-white/10 text-white font-bold focus:border-white focus:outline-none"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-extrabold text-[var(--text-secondary)] mb-1.5">
+                    <label className="block text-xs font-bold text-zinc-400 mb-1.5">
                       Avatar
                     </label>
                     <select
                       value={avatar}
                       onChange={(e) => setAvatar(e.target.value)}
-                      className="w-full px-3.5 py-2.5 text-xs rounded-2xl clay-input text-[var(--text-primary)] font-bold transition-colors cursor-pointer"
+                      className="w-full px-3.5 py-2.5 text-xs rounded-xl bg-zinc-900 border border-white/10 text-white font-bold focus:border-white focus:outline-none cursor-pointer"
                     >
                       {AVATAR_OPTIONS.map((opt) => (
-                        <option key={opt} value={opt} className="bg-[var(--bg-card)] text-white">
+                        <option key={opt} value={opt} className="bg-zinc-900 text-white">
                           {opt}
                         </option>
                       ))}
@@ -370,11 +369,11 @@ export function AuthModal() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-extrabold text-[var(--text-secondary)] mb-1.5">
+                  <label className="block text-xs font-bold text-zinc-400 mb-1.5">
                     Password (min. 6 characters)
                   </label>
                   <div className="relative">
-                    <Lock className="absolute left-3.5 top-3 w-4 h-4 text-[var(--text-muted)]" />
+                    <Lock className="absolute left-3.5 top-3 w-4 h-4 text-zinc-500" />
                     <input
                       type="password"
                       required
@@ -382,17 +381,17 @@ export function AuthModal() {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="••••••••"
-                      className="w-full pl-10 pr-3 py-2.5 text-xs rounded-2xl clay-input text-[var(--text-primary)] font-bold transition-colors"
+                      className="w-full pl-10 pr-3 py-2.5 text-xs rounded-xl bg-zinc-900 border border-white/10 text-white font-bold focus:border-white focus:outline-none"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-extrabold text-[var(--text-secondary)] mb-1.5">
+                  <label className="block text-xs font-bold text-zinc-400 mb-1.5">
                     Confirm Password
                   </label>
                   <div className="relative">
-                    <Lock className="absolute left-3.5 top-3 w-4 h-4 text-[var(--text-muted)]" />
+                    <Lock className="absolute left-3.5 top-3 w-4 h-4 text-zinc-500" />
                     <input
                       type="password"
                       required
@@ -400,19 +399,19 @@ export function AuthModal() {
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       placeholder="••••••••"
-                      className="w-full pl-10 pr-3 py-2.5 text-xs rounded-2xl clay-input text-[var(--text-primary)] font-bold transition-colors"
+                      className="w-full pl-10 pr-3 py-2.5 text-xs rounded-xl bg-zinc-900 border border-white/10 text-white font-bold focus:border-white focus:outline-none"
                     />
                   </div>
                 </div>
 
-                <div className="text-[11px] text-[var(--text-muted)] leading-relaxed font-medium">
+                <div className="text-[11px] text-zinc-500 leading-relaxed font-medium">
                   🔒 Zero email collection. An instant, secure recovery key will be generated for password resets.
                 </div>
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full clay-btn-primary py-3.5 text-sm font-extrabold rounded-2xl mt-3 flex items-center justify-center gap-2"
+                  className="w-full btn-primary py-3 text-sm font-bold rounded-xl mt-3 flex items-center justify-center gap-2"
                 >
                   {loading ? "Creating..." : "Create Account"}
                 </button>
@@ -422,46 +421,46 @@ export function AuthModal() {
             {/* RECOVERY FORM (Reset password via recovery code) */}
             {tab === "recover" && (
               <form onSubmit={handleRecover} className="space-y-3.5">
-                <div className="p-3.5 rounded-2xl clay-card bg-[var(--bg-card)] border border-[var(--border-subtle)] text-xs text-[var(--text-secondary)] font-medium">
+                <div className="p-3.5 rounded-xl bg-zinc-900 border border-white/10 text-xs text-zinc-400 font-medium">
                   Enter your username and the recovery code you received during sign up to reset your password.
                 </div>
 
                 <div>
-                  <label className="block text-xs font-extrabold text-[var(--text-secondary)] mb-1.5">
+                  <label className="block text-xs font-bold text-zinc-400 mb-1.5">
                     Username
                   </label>
                   <div className="relative">
-                    <User className="absolute left-3.5 top-3 w-4 h-4 text-[var(--text-muted)]" />
+                    <User className="absolute left-3.5 top-3 w-4 h-4 text-zinc-500" />
                     <input
                       type="text"
                       required
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
                       placeholder="Your registered username"
-                      className="w-full pl-10 pr-3 py-2.5 text-xs rounded-2xl clay-input text-[var(--text-primary)] font-bold transition-colors"
+                      className="w-full pl-10 pr-3 py-2.5 text-xs rounded-xl bg-zinc-900 border border-white/10 text-white font-bold focus:border-white focus:outline-none"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-extrabold text-[var(--text-secondary)] mb-1.5">
+                  <label className="block text-xs font-bold text-zinc-400 mb-1.5">
                     Recovery Code
                   </label>
                   <div className="relative">
-                    <KeyRound className="absolute left-3.5 top-3 w-4 h-4 text-[var(--text-muted)]" />
+                    <KeyRound className="absolute left-3.5 top-3 w-4 h-4 text-zinc-500" />
                     <input
                       type="text"
                       required
                       value={recoveryCode}
                       onChange={(e) => setRecoveryCode(e.target.value)}
                       placeholder="FLASH-XXXX-XXXX-XXXX"
-                      className="w-full pl-10 pr-3 py-2.5 text-xs font-mono rounded-2xl clay-input text-[var(--text-primary)] font-bold uppercase transition-colors"
+                      className="w-full pl-10 pr-3 py-2.5 text-xs font-mono rounded-xl bg-zinc-900 border border-white/10 text-white font-bold uppercase focus:border-white focus:outline-none"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-extrabold text-[var(--text-secondary)] mb-1.5">
+                  <label className="block text-xs font-bold text-zinc-400 mb-1.5">
                     New Password
                   </label>
                   <input
@@ -470,12 +469,12 @@ export function AuthModal() {
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                     placeholder="New password (min. 6 chars)"
-                    className="w-full px-4 py-2.5 text-xs rounded-2xl clay-input text-[var(--text-primary)] font-bold transition-colors"
+                    className="w-full px-4 py-2 text-xs rounded-xl bg-zinc-900 border border-white/10 text-white font-bold focus:border-white focus:outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-extrabold text-[var(--text-secondary)] mb-1.5">
+                  <label className="block text-xs font-bold text-zinc-400 mb-1.5">
                     Confirm New Password
                   </label>
                   <input
@@ -484,7 +483,7 @@ export function AuthModal() {
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder="Confirm new password"
-                    className="w-full px-4 py-2.5 text-xs rounded-2xl clay-input text-[var(--text-primary)] font-bold transition-colors"
+                    className="w-full px-4 py-2 text-xs rounded-xl bg-zinc-900 border border-white/10 text-white font-bold focus:border-white focus:outline-none"
                   />
                 </div>
 
@@ -492,14 +491,14 @@ export function AuthModal() {
                   <button
                     type="button"
                     onClick={() => setTab("login")}
-                    className="clay-btn-secondary flex-1 py-3 text-xs font-bold rounded-2xl"
+                    className="btn-secondary flex-1 py-2.5 text-xs font-semibold rounded-xl"
                   >
                     Back to Login
                   </button>
                   <button
                     type="submit"
                     disabled={loading}
-                    className="clay-btn-primary flex-1 py-3 text-xs font-extrabold rounded-2xl"
+                    className="btn-primary flex-1 py-2.5 text-xs font-bold rounded-xl"
                   >
                     {loading ? "Resetting..." : "Reset Password"}
                   </button>

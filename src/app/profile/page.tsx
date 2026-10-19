@@ -16,11 +16,6 @@ import {
   KeyRound,
   ShieldAlert,
   LogOut,
-  Check,
-  AlertCircle,
-  Eye,
-  EyeOff,
-  Sparkles,
 } from "lucide-react";
 
 const AVATAR_OPTIONS = ["⚡", "🧠", "🚀", "🎯", "🔥", "🏆", "💎", "🌟", "🦊", "🐉", "🪐", "⚔️"];
@@ -68,13 +63,13 @@ function ProfileContent() {
         <Navbar />
         <AuthModal />
         <main className="flex-1 max-w-md w-full mx-auto px-4 py-20 flex flex-col items-center justify-center text-center">
-          <div className="w-16 h-16 rounded-2xl bg-[var(--accent-glow)] text-[var(--accent-primary)] flex items-center justify-center mb-4">
+          <div className="w-16 h-16 rounded-2xl bg-zinc-900 border border-white/10 text-white flex items-center justify-center mb-4">
             <User className="w-8 h-8" />
           </div>
-          <h1 className="text-2xl font-extrabold text-[var(--text-primary)] mb-2">
+          <h1 className="text-2xl font-bold text-white mb-2">
             Profile & Progress
           </h1>
-          <p className="text-xs text-[var(--text-secondary)] mb-6">
+          <p className="text-xs text-zinc-400 mb-6">
             Log in or create a username-only account to track streaks, unlock achievements, and save personal records.
           </p>
           <div className="flex gap-3 w-full">
@@ -139,7 +134,10 @@ function ProfileContent() {
       const res = await fetch("/api/auth/password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ currentPassword, newPassword, confirmPassword }),
+        body: JSON.stringify({
+          currentPassword,
+          newPassword,
+        }),
       });
 
       const data = await res.json();
@@ -151,8 +149,7 @@ function ProfileContent() {
         setConfirmPassword("");
         setTimeout(() => setPassMsg(null), 3000);
       } else {
-        sounds.incorrect();
-        setPassMsg({ text: data.error || "Failed to change password.", error: true });
+        setPassMsg({ text: data.error || "Failed to update password.", error: true });
       }
     } catch {
       setPassMsg({ text: "Network error.", error: true });
@@ -172,7 +169,7 @@ function ProfileContent() {
 
       const data = await res.json();
       if (res.ok) {
-        await logout();
+        logout();
       } else {
         setDeleteError(data.error || "Failed to delete account.");
       }
@@ -188,33 +185,33 @@ function ProfileContent() {
 
       <main className="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-8 space-y-8">
         {/* DASHBOARD HERO */}
-        <div className="p-7 sm:p-9 rounded-3xl clay-card bg-[var(--bg-secondary)] border border-[var(--border-subtle)] flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div className="p-7 sm:p-9 rounded-2xl bg-zinc-950 border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-5 text-center sm:text-left">
-            <div className="w-18 h-18 rounded-3xl bg-[var(--bg-card)] border border-[var(--border-subtle)] flex items-center justify-center text-4xl shadow-[var(--clay-card-shadow)]">
+            <div className="w-16 h-16 rounded-2xl bg-zinc-900 border border-white/10 flex items-center justify-center text-3xl">
               {user.avatar || "⚡"}
             </div>
             <div>
               <div className="flex items-center gap-2.5 justify-center sm:justify-start">
-                <h1 className="text-2xl sm:text-3xl font-black text-[var(--text-primary)] drop-shadow-sm">
+                <h1 className="text-2xl sm:text-3xl font-black text-white">
                   {user.displayName || user.username}
                 </h1>
-                <span className="text-[10px] font-mono font-black px-2.5 py-1 rounded-full bg-gradient-to-r from-[#F59E0B] to-[#D97706] text-[#0B0F19] shadow-[0_2px_6px_rgba(245,158,11,0.3)]">
+                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-white text-black">
                   LVL {user.level}
                 </span>
               </div>
-              <p className="text-xs text-[var(--text-muted)] font-mono font-bold mt-1">
+              <p className="text-xs text-zinc-400 font-mono mt-1">
                 @{user.username} • Verified Member
               </p>
 
               {/* XP Progress */}
               <div className="mt-3.5">
-                <div className="flex justify-between text-[10px] text-[var(--text-secondary)] mb-1.5 font-bold">
+                <div className="flex justify-between text-[10px] text-zinc-400 mb-1.5 font-bold">
                   <span>Level {user.level} Progress</span>
-                  <span className="font-mono">{user.xp} / {levelInfo.nextLevelXP} XP</span>
+                  <span className="font-mono text-zinc-300">{user.xp} / {levelInfo.nextLevelXP} XP</span>
                 </div>
-                <div className="w-48 sm:w-64 h-3 bg-[var(--bg-card)] rounded-full overflow-hidden shadow-[var(--clay-sunken-shadow)] border border-[var(--border-subtle)]">
+                <div className="w-48 sm:w-64 h-2 bg-zinc-900 rounded-full overflow-hidden border border-white/10">
                   <div
-                    className="h-full rounded-full bg-gradient-to-r from-[#F59E0B] to-[#10B981] shadow-[0_2px_8px_rgba(245,158,11,0.5)] transition-all"
+                    className="h-full rounded-full bg-white transition-all"
                     style={{ width: `${levelInfo.progressPercent}%` }}
                   />
                 </div>
@@ -223,13 +220,13 @@ function ProfileContent() {
           </div>
 
           <div className="flex items-center gap-3">
-            <Link href="/play" className="clay-btn-primary py-3 px-7 text-xs font-extrabold flex items-center gap-2 rounded-2xl">
+            <Link href="/play" className="btn-primary py-2.5 px-6 text-xs font-bold flex items-center gap-2 rounded-xl">
               <Play className="w-4 h-4 fill-current" />
               Play Now
             </Link>
             <button
               onClick={logout}
-              className="p-3 rounded-2xl clay-card bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-red-400 shadow-[var(--clay-pill-shadow)] transition-colors"
+              className="p-2.5 rounded-xl bg-zinc-900 border border-white/10 text-zinc-400 hover:text-red-400 hover:border-red-500/30 transition-colors"
               title="Log out"
             >
               <LogOut className="w-4 h-4" />
@@ -239,50 +236,50 @@ function ProfileContent() {
 
         {/* STATS TILES */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          <div className="p-5 rounded-3xl clay-card bg-[var(--bg-card)] border border-[var(--border-subtle)] text-center shadow-[var(--clay-pill-shadow)]">
-            <div className="flex items-center justify-center text-amber-400 mb-1.5">
-              <Flame className="w-6 h-6" />
+          <div className="p-5 rounded-xl bg-zinc-900 border border-white/10 text-center">
+            <div className="flex items-center justify-center text-red-500 mb-1.5">
+              <Flame className="w-5 h-5" />
             </div>
-            <span className="text-3xl font-black text-[var(--text-primary)] font-mono">
+            <span className="text-3xl font-black text-white font-mono">
               {user.currentStreak || 0}
             </span>
-            <span className="text-[10px] text-[var(--text-muted)] block uppercase font-extrabold mt-1">
+            <span className="text-[10px] text-zinc-400 block uppercase font-bold mt-1">
               Daily Streak
             </span>
           </div>
 
-          <div className="p-5 rounded-3xl clay-card bg-[var(--bg-card)] border border-[var(--border-subtle)] text-center shadow-[var(--clay-pill-shadow)]">
-            <div className="flex items-center justify-center text-[var(--accent-primary)] mb-1.5">
-              <Trophy className="w-6 h-6" />
+          <div className="p-5 rounded-xl bg-zinc-900 border border-white/10 text-center">
+            <div className="flex items-center justify-center text-zinc-300 mb-1.5">
+              <Trophy className="w-5 h-5" />
             </div>
-            <span className="text-3xl font-black text-[var(--text-primary)] font-mono">
+            <span className="text-3xl font-black text-white font-mono">
               {user.bestStreak || 0}
             </span>
-            <span className="text-[10px] text-[var(--text-muted)] block uppercase font-extrabold mt-1">
+            <span className="text-[10px] text-zinc-400 block uppercase font-bold mt-1">
               Best Streak
             </span>
           </div>
 
-          <div className="p-5 rounded-3xl clay-card bg-[var(--bg-card)] border border-[var(--border-subtle)] text-center shadow-[var(--clay-pill-shadow)]">
-            <div className="flex items-center justify-center text-[var(--color-mint)] mb-1.5">
-              <Play className="w-6 h-6" />
+          <div className="p-5 rounded-xl bg-zinc-900 border border-white/10 text-center">
+            <div className="flex items-center justify-center text-green-400 mb-1.5">
+              <Play className="w-5 h-5" />
             </div>
-            <span className="text-3xl font-black text-[var(--text-primary)] font-mono">
+            <span className="text-3xl font-black text-white font-mono">
               {user.totalRounds || 0}
             </span>
-            <span className="text-[10px] text-[var(--text-muted)] block uppercase font-extrabold mt-1">
+            <span className="text-[10px] text-zinc-400 block uppercase font-bold mt-1">
               Rounds Played
             </span>
           </div>
 
-          <div className="p-5 rounded-3xl clay-card bg-[var(--bg-card)] border border-[var(--border-subtle)] text-center shadow-[var(--clay-pill-shadow)]">
-            <div className="flex items-center justify-center text-[#38BDF8] mb-1.5">
-              <Award className="w-6 h-6" />
+          <div className="p-5 rounded-xl bg-zinc-900 border border-white/10 text-center">
+            <div className="flex items-center justify-center text-zinc-200 mb-1.5">
+              <Award className="w-5 h-5" />
             </div>
-            <span className="text-3xl font-black text-[var(--text-primary)] font-mono">
+            <span className="text-3xl font-black text-white font-mono">
               {user.totalCorrect || 0}
             </span>
-            <span className="text-[10px] text-[var(--text-muted)] block uppercase font-extrabold mt-1">
+            <span className="text-[10px] text-zinc-400 block uppercase font-bold mt-1">
               Words Recalled
             </span>
           </div>
@@ -291,33 +288,33 @@ function ProfileContent() {
         {/* SETTINGS PANELS */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* 1. EDIT PROFILE */}
-          <div className="p-7 rounded-3xl clay-card bg-[var(--bg-secondary)] border border-[var(--border-subtle)]">
-            <h2 className="text-base font-black text-[var(--text-primary)] mb-4 flex items-center gap-2">
-              <User className="w-4 h-4 text-[var(--accent-primary)]" />
+          <div className="p-6 rounded-2xl bg-zinc-950 border border-white/10">
+            <h2 className="text-base font-bold text-white mb-4 flex items-center gap-2">
+              <User className="w-4 h-4 text-zinc-300" />
               Edit Profile
             </h2>
 
             {profileMsg && (
-              <div className="mb-4 p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs font-bold">
+              <div className="mb-4 p-3 rounded-lg bg-green-500/10 border border-green-500/20 text-green-400 text-xs font-bold">
                 {profileMsg}
               </div>
             )}
 
             <form onSubmit={handleUpdateProfile} className="space-y-4">
               <div>
-                <label className="block text-xs font-extrabold text-[var(--text-secondary)] mb-1.5">
+                <label className="block text-xs font-bold text-zinc-400 mb-1.5">
                   Display Name
                 </label>
                 <input
                   type="text"
                   value={displayName}
                   onChange={(e) => setDisplayName(e.target.value)}
-                  className="w-full px-4 py-2.5 text-xs rounded-2xl clay-input text-[var(--text-primary)] font-bold"
+                  className="w-full px-4 py-2.5 text-xs rounded-xl bg-zinc-900 border border-white/10 text-white font-bold focus:border-white focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-extrabold text-[var(--text-secondary)] mb-2">
+                <label className="block text-xs font-bold text-zinc-400 mb-2">
                   Select Avatar
                 </label>
                 <div className="flex flex-wrap gap-2">
@@ -326,10 +323,10 @@ function ProfileContent() {
                       key={opt}
                       type="button"
                       onClick={() => setAvatar(opt)}
-                      className={`w-10 h-10 rounded-2xl flex items-center justify-center text-xl transition-all ${
+                      className={`w-9 h-9 rounded-lg flex items-center justify-center text-lg transition-all ${
                         avatar === opt
-                          ? "bg-gradient-to-br from-[#F59E0B] to-[#D97706] text-[#0B0F19] shadow-[0_4px_10px_rgba(245,158,11,0.35),inset_1px_1px_2px_rgba(255,255,255,0.6)] scale-110"
-                          : "clay-card bg-[var(--bg-card)] text-[var(--text-secondary)] shadow-[var(--clay-pill-shadow)] hover:text-white"
+                          ? "bg-white text-black font-bold scale-105"
+                          : "bg-zinc-900 border border-white/10 text-zinc-400 hover:text-white"
                       }`}
                     >
                       {opt}
@@ -340,10 +337,10 @@ function ProfileContent() {
 
               <div className="flex items-center justify-between pt-2">
                 <div>
-                  <span className="text-xs font-bold text-[var(--text-primary)] block">
+                  <span className="text-xs font-bold text-white block">
                     Public Leaderboard Profile
                   </span>
-                  <span className="text-[10px] text-[var(--text-muted)] font-medium">
+                  <span className="text-[10px] text-zinc-400 font-medium">
                     Show username and avatar on rankings
                   </span>
                 </div>
@@ -351,29 +348,29 @@ function ProfileContent() {
                   type="checkbox"
                   checked={isPublic}
                   onChange={(e) => setIsPublic(e.target.checked)}
-                  className="w-4 h-4 accent-[var(--accent-strong)] cursor-pointer"
+                  className="w-4 h-4 accent-red-500 cursor-pointer"
                 />
               </div>
 
-              <button type="submit" className="w-full clay-btn-primary py-3 text-xs font-extrabold rounded-2xl mt-2">
+              <button type="submit" className="w-full btn-primary py-2.5 text-xs font-bold rounded-xl mt-2">
                 Save Profile Changes
               </button>
             </form>
           </div>
 
           {/* 2. CHANGE PASSWORD */}
-          <div className="p-7 rounded-3xl clay-card bg-[var(--bg-secondary)] border border-[var(--border-subtle)]">
-            <h2 className="text-base font-black text-[var(--text-primary)] mb-4 flex items-center gap-2">
-              <KeyRound className="w-4 h-4 text-[var(--accent-primary)]" />
+          <div className="p-6 rounded-2xl bg-zinc-950 border border-white/10">
+            <h2 className="text-base font-bold text-white mb-4 flex items-center gap-2">
+              <KeyRound className="w-4 h-4 text-zinc-300" />
               Change Password
             </h2>
 
             {passMsg && (
               <div
-                className={`mb-4 p-3 rounded-2xl border text-xs font-bold ${
+                className={`mb-4 p-3 rounded-lg border text-xs font-bold ${
                   passMsg.error
                     ? "bg-red-500/10 border-red-500/20 text-red-400"
-                    : "bg-emerald-500/10 border-emerald-500/20 text-emerald-400"
+                    : "bg-green-500/10 border-green-500/20 text-green-400"
                 }`}
               >
                 {passMsg.text}
@@ -382,7 +379,7 @@ function ProfileContent() {
 
             <form onSubmit={handleChangePassword} className="space-y-3.5">
               <div>
-                <label className="block text-xs font-extrabold text-[var(--text-secondary)] mb-1">
+                <label className="block text-xs font-bold text-zinc-400 mb-1">
                   Current Password
                 </label>
                 <input
@@ -391,12 +388,12 @@ function ProfileContent() {
                   value={currentPassword}
                   onChange={(e) => setCurrentPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full px-4 py-2.5 text-xs rounded-2xl clay-input text-[var(--text-primary)] font-bold"
+                  className="w-full px-4 py-2 text-xs rounded-xl bg-zinc-900 border border-white/10 text-white font-bold focus:border-white focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-extrabold text-[var(--text-secondary)] mb-1">
+                <label className="block text-xs font-bold text-zinc-400 mb-1">
                   New Password (min. 6 chars)
                 </label>
                 <input
@@ -405,12 +402,12 @@ function ProfileContent() {
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full px-4 py-2.5 text-xs rounded-2xl clay-input text-[var(--text-primary)] font-bold"
+                  className="w-full px-4 py-2 text-xs rounded-xl bg-zinc-900 border border-white/10 text-white font-bold focus:border-white focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-extrabold text-[var(--text-secondary)] mb-1">
+                <label className="block text-xs font-bold text-zinc-400 mb-1">
                   Confirm New Password
                 </label>
                 <input
@@ -419,11 +416,11 @@ function ProfileContent() {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full px-4 py-2.5 text-xs rounded-2xl clay-input text-[var(--text-primary)] font-bold"
+                  className="w-full px-4 py-2 text-xs rounded-xl bg-zinc-900 border border-white/10 text-white font-bold focus:border-white focus:outline-none"
                 />
               </div>
 
-              <button type="submit" className="w-full clay-btn-secondary py-3 text-xs font-extrabold rounded-2xl mt-2">
+              <button type="submit" className="w-full btn-secondary py-2.5 text-xs font-bold rounded-xl mt-2">
                 Update Password
               </button>
             </form>
@@ -431,21 +428,21 @@ function ProfileContent() {
         </div>
 
         {/* DANGER ZONE: ACCOUNT DELETION */}
-        <div className="p-7 rounded-3xl clay-card bg-red-950/20 border border-red-500/20">
+        <div className="p-6 rounded-2xl bg-red-950/20 border border-red-500/20">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
-              <h3 className="text-sm font-black text-red-400 flex items-center gap-1.5">
+              <h3 className="text-sm font-bold text-red-400 flex items-center gap-1.5">
                 <ShieldAlert className="w-4 h-4" />
                 Permanent Account Deletion
               </h3>
-              <p className="text-xs text-[var(--text-muted)] mt-1 font-medium leading-relaxed">
+              <p className="text-xs text-zinc-400 mt-1 font-medium leading-relaxed">
                 Permanently delete your profile, achievements, match history, and records. This action cannot be undone.
               </p>
             </div>
 
             <button
               onClick={() => setShowDeleteConfirm(!showDeleteConfirm)}
-              className="px-4 py-2 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-400 hover:bg-red-500/20 text-xs font-black shadow-[var(--clay-pill-shadow)] transition-colors"
+              className="px-4 py-2 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 hover:bg-red-500/20 text-xs font-bold transition-colors"
             >
               {showDeleteConfirm ? "Cancel" : "Delete Account"}
             </button>
@@ -454,11 +451,11 @@ function ProfileContent() {
           {showDeleteConfirm && (
             <form onSubmit={handleDeleteAccount} className="mt-4 pt-4 border-t border-red-500/20 space-y-3">
               {deleteError && (
-                <div className="p-2.5 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-bold">
+                <div className="p-2.5 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-bold">
                   {deleteError}
                 </div>
               )}
-              <label className="block text-xs font-extrabold text-red-300">
+              <label className="block text-xs font-bold text-red-300">
                 Enter your password to confirm permanent deletion:
               </label>
               <div className="flex gap-2">
@@ -468,11 +465,11 @@ function ProfileContent() {
                   value={deletePassword}
                   onChange={(e) => setDeletePassword(e.target.value)}
                   placeholder="Your current password"
-                  className="flex-1 px-4 py-2.5 text-xs rounded-2xl clay-input text-[var(--text-primary)] font-bold"
+                  className="flex-1 px-4 py-2 text-xs rounded-xl bg-zinc-900 border border-white/10 text-white font-bold focus:border-red-500 focus:outline-none"
                 />
                 <button
                   type="submit"
-                  className="px-5 py-2.5 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-extrabold text-xs shadow-[var(--clay-pill-shadow)] transition-colors"
+                  className="px-5 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs transition-colors"
                 >
                   Confirm Delete
                 </button>

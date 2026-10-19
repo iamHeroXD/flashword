@@ -25,28 +25,28 @@ export function BrandLogo({ size = "md", href = "/", showTagline = false }: Bran
   const Content = (
     <div className="flex items-center gap-2.5 group cursor-pointer select-none">
       <div
-        className={`${iconSizes[size]} rounded-xl flex items-center justify-center bg-gradient-to-br from-[#F59E0B] to-[#D97706] text-[#0B0F19] transition-all duration-200 group-hover:scale-105 shadow-[0_4px_12px_rgba(245,158,11,0.35),inset_2px_2px_3px_rgba(255,255,255,0.6),inset_-2px_-2px_4px_rgba(180,83,9,0.6)]`}
+        className={`${iconSizes[size]} rounded-lg flex items-center justify-center bg-zinc-900 border border-white/20 text-white transition-all duration-200 group-hover:border-red-500/80 group-hover:shadow-[0_0_12px_rgba(239,68,68,0.3)]`}
       >
         <svg
           viewBox="0 0 24 24"
           fill="currentColor"
-          className="w-4 h-4 text-[#0B0F19] drop-shadow-sm transition-transform duration-200 group-hover:rotate-6"
+          className="w-4 h-4 text-red-500 transition-transform duration-200 group-hover:scale-110"
         >
           <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" />
         </svg>
       </div>
 
       <div className="flex flex-col">
-        <div className="flex items-center tracking-tight">
-          <span className={`${textSizes[size]} font-black text-white transition-colors`}>
+        <div className="flex items-center tracking-tight font-black">
+          <span className={`${textSizes[size]} text-white transition-colors`}>
             FLASH
           </span>
-          <span className={`${textSizes[size]} font-black text-[#F59E0B] transition-colors`}>
+          <span className={`${textSizes[size]} text-zinc-400 group-hover:text-red-500 transition-colors ml-0.5`}>
             WORD
           </span>
         </div>
         {showTagline && (
-          <span className="text-[10px] text-[#94A3B8] font-medium tracking-wider uppercase -mt-0.5">
+          <span className="text-[10px] text-zinc-400 font-mono tracking-wider uppercase -mt-0.5">
             Brain on the clock
           </span>
         )}

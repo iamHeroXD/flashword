@@ -244,7 +244,7 @@ function AdminContent() {
               </div>
 
               <div className="p-5 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-subtle)] text-center">
-                <Database className="w-5 h-5 text-amber-400 mx-auto mb-1.5" />
+                <Database className="w-5 h-5 text-zinc-300 mx-auto mb-1.5" />
                 <span className="text-2xl font-black text-[var(--text-primary)] font-mono">
                   {stats.totalWords}
                 </span>
