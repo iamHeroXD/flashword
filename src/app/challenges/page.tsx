@@ -64,28 +64,28 @@ function ChallengesContent() {
       <AuthModal />
 
       <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-8">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 text-xs font-bold mb-3 border border-amber-500/20">
+        <div className="text-center mb-10">
+          <div className="clay-badge text-[var(--accent-primary)] mb-3">
             <Flame className="w-3.5 h-3.5" />
             Competitive Gauntlet
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-[var(--text-primary)] tracking-tight">
+          <h1 className="text-3xl sm:text-5xl font-black text-[var(--text-primary)] tracking-tight drop-shadow-sm">
             Special Challenges
           </h1>
-          <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1.5 max-w-md mx-auto">
+          <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-2 max-w-md mx-auto leading-relaxed">
             Test your cognitive reflexes against standardized daily puzzles and endurance modes.
           </p>
         </div>
 
         {/* 1. DAILY CHALLENGE HERO CARD */}
-        <div className="p-6 sm:p-8 rounded-2xl flash-card bg-[var(--bg-secondary)] border border-[var(--border-active)] shadow-xl mb-8 relative overflow-hidden">
+        <div className="p-6 sm:p-8 rounded-3xl clay-card bg-[var(--bg-secondary)] border border-[var(--border-subtle)] mb-8 relative overflow-hidden">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 relative z-10">
             <div>
-              <div className="flex items-center gap-2 text-xs font-mono font-bold text-amber-400 mb-1">
+              <div className="flex items-center gap-2 text-xs font-mono font-black text-amber-400 mb-1.5">
                 <Calendar className="w-4 h-4" />
                 OFFICIAL DAILY CHALLENGE • {dailyData?.challengeDate || "TODAY"}
               </div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-[var(--text-primary)] mb-2">
+              <h2 className="text-2xl sm:text-3xl font-black text-[var(--text-primary)] mb-2 drop-shadow-sm">
                 Today&apos;s Global Word Flash
               </h2>
               <p className="text-xs sm:text-sm text-[var(--text-secondary)] max-w-xl leading-relaxed">
@@ -93,14 +93,14 @@ function ChallengesContent() {
               </p>
 
               {dailyData && (
-                <div className="flex flex-wrap gap-2.5 mt-4 text-xs font-semibold">
-                  <span className="px-3 py-1 rounded-lg bg-[var(--bg-card)] border border-[var(--border-subtle)] text-[var(--text-primary)]">
+                <div className="flex flex-wrap gap-2.5 mt-4 text-xs font-extrabold">
+                  <span className="px-3.5 py-1.5 rounded-full bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-[var(--clay-pill-shadow)] text-[var(--text-primary)]">
                     {dailyData.config.wordCount} Words
                   </span>
-                  <span className="px-3 py-1 rounded-lg bg-[var(--bg-card)] border border-[var(--border-subtle)] text-[var(--color-mint)]">
+                  <span className="px-3.5 py-1.5 rounded-full bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-[var(--clay-pill-shadow)] text-[var(--color-mint)]">
                     {dailyData.config.displayDuration}s Flash
                   </span>
-                  <span className="px-3 py-1 rounded-lg bg-[var(--bg-card)] border border-[var(--border-subtle)] text-[var(--accent-primary)] capitalize">
+                  <span className="px-3.5 py-1.5 rounded-full bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-[var(--clay-pill-shadow)] text-[var(--accent-primary)] capitalize">
                     {dailyData.config.categoryId}
                   </span>
                 </div>
@@ -109,21 +109,21 @@ function ChallengesContent() {
 
             <div className="w-full sm:w-auto shrink-0">
               {userAttempt?.completed ? (
-                <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-center">
-                  <div className="flex items-center justify-center gap-1.5 text-emerald-400 font-bold text-xs mb-1">
+                <div className="p-5 rounded-3xl clay-card bg-emerald-500/10 border border-emerald-500/30 text-center">
+                  <div className="flex items-center justify-center gap-1.5 text-emerald-400 font-black text-xs mb-1">
                     <CheckCircle className="w-4 h-4" /> Completed Today
                   </div>
                   <div className="text-2xl font-mono font-black text-[var(--text-primary)]">
                     {userAttempt.score} PTS
                   </div>
-                  <span className="text-[10px] text-[var(--text-muted)]">
+                  <span className="text-[10px] font-bold text-[var(--text-muted)]">
                     {userAttempt.accuracy}% Accuracy
                   </span>
                 </div>
               ) : (
                 <Link
                   href="/play?mode=daily"
-                  className="w-full sm:w-auto btn-primary py-3.5 px-8 text-base font-bold flex items-center justify-center gap-2 shadow-xl"
+                  className="w-full sm:w-auto clay-btn-primary py-4 px-9 text-base font-extrabold flex items-center justify-center gap-2 rounded-2xl"
                 >
                   <Play className="w-5 h-5 fill-current" />
                   Start Daily Challenge
@@ -136,32 +136,32 @@ function ChallengesContent() {
         {/* 2. CHALLENGE TILES */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Speed Rush */}
-          <div className="p-6 rounded-2xl flash-card bg-[var(--bg-secondary)] border border-[var(--border-subtle)] flex flex-col justify-between">
+          <div className="p-7 rounded-3xl clay-card clay-card-interactive bg-[var(--bg-card)] border border-[var(--border-subtle)] flex flex-col justify-between">
             <div>
-              <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center mb-4">
-                <Zap className="w-5 h-5" />
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#38BDF8]/20 to-[#0284C7]/20 border border-[#38BDF8]/30 text-[#38BDF8] flex items-center justify-center mb-4 shadow-[var(--clay-pill-shadow)]">
+                <Zap className="w-6 h-6" />
               </div>
-              <h3 className="text-xl font-bold text-[var(--text-primary)] mb-2">Speed Rush Gauntlet</h3>
+              <h3 className="text-xl font-black text-[var(--text-primary)] mb-2">Speed Rush Gauntlet</h3>
               <p className="text-xs text-[var(--text-secondary)] leading-relaxed mb-6">
-                Words appear and disappear at escalating speeds. Start at 5.0 seconds and drop down to 1.5 seconds. Tests peripheral perception and instant recognition.
+                Words appear and disappear at escalating speeds. Start at 5.0 seconds and drop down to 1.0 second. Tests peripheral perception and instant recognition.
               </p>
             </div>
 
             <Link
               href="/play?mode=speed"
-              className="btn-secondary py-2.5 text-xs font-bold text-center block"
+              className="clay-btn-secondary py-3 text-xs font-extrabold text-center block rounded-2xl"
             >
               Launch Speed Rush
             </Link>
           </div>
 
           {/* Survival Mode */}
-          <div className="p-6 rounded-2xl flash-card bg-[var(--bg-secondary)] border border-[var(--border-subtle)] flex flex-col justify-between">
+          <div className="p-7 rounded-3xl clay-card clay-card-interactive bg-[var(--bg-card)] border border-[var(--border-subtle)] flex flex-col justify-between">
             <div>
-              <div className="w-10 h-10 rounded-xl bg-red-500/10 text-red-400 flex items-center justify-center mb-4">
-                <Shield className="w-5 h-5" />
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#F43F5E]/20 to-[#E11D48]/20 border border-[#F43F5E]/30 text-[#F43F5E] flex items-center justify-center mb-4 shadow-[var(--clay-pill-shadow)]">
+                <Shield className="w-6 h-6" />
               </div>
-              <h3 className="text-xl font-bold text-[var(--text-primary)] mb-2">Endurance Survival</h3>
+              <h3 className="text-xl font-black text-[var(--text-primary)] mb-2">Endurance Survival</h3>
               <p className="text-xs text-[var(--text-secondary)] leading-relaxed mb-6">
                 3 Hearts. Infinite rounds. Achieve at least 80% recall accuracy to keep your lives. How many stages can you survive?
               </p>
@@ -169,7 +169,7 @@ function ChallengesContent() {
 
             <Link
               href="/play?mode=survival"
-              className="btn-secondary py-2.5 text-xs font-bold text-center block"
+              className="clay-btn-secondary py-3 text-xs font-extrabold text-center block rounded-2xl"
             >
               Launch Survival Mode
             </Link>

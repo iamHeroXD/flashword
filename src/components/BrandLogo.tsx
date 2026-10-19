@@ -25,12 +25,12 @@ export function BrandLogo({ size = "md", href = "/", showTagline = false }: Bran
   const Content = (
     <div className="flex items-center gap-2.5 group cursor-pointer select-none">
       <div
-        className={`${iconSizes[size]} rounded-lg flex items-center justify-center bg-[#141720] border border-[#2C3445] text-[#F59E0B] transition-all duration-200 group-hover:border-[#F59E0B] group-hover:bg-[#1A1F2B]`}
+        className={`${iconSizes[size]} rounded-xl flex items-center justify-center bg-gradient-to-br from-[#F59E0B] to-[#D97706] text-[#0B0F19] transition-all duration-200 group-hover:scale-105 shadow-[0_4px_12px_rgba(245,158,11,0.35),inset_2px_2px_3px_rgba(255,255,255,0.6),inset_-2px_-2px_4px_rgba(180,83,9,0.6)]`}
       >
         <svg
           viewBox="0 0 24 24"
           fill="currentColor"
-          className="w-4 h-4 text-[#F59E0B] transition-transform duration-200 group-hover:scale-110"
+          className="w-4 h-4 text-[#0B0F19] drop-shadow-sm transition-transform duration-200 group-hover:rotate-6"
         >
           <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" />
         </svg>

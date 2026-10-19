@@ -739,10 +739,10 @@ function PlayContent() {
               </div>
             )}
 
-            <div className="space-y-6 flash-card p-6 sm:p-8 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-subtle)] shadow-xl">
+            <div className="space-y-6 clay-card p-6 sm:p-8 rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-subtle)]">
               {/* CONTROL A: Word Count */}
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)] mb-2.5">
+                <label className="block text-xs font-extrabold uppercase tracking-wider text-[var(--text-secondary)] mb-2.5">
                   A. Number of Words Displayed
                 </label>
                 <div className="grid grid-cols-5 gap-2 sm:gap-3">
@@ -755,14 +755,14 @@ function PlayContent() {
                         setWordCount(cnt);
                         savePreference("count", String(cnt));
                       }}
-                      className={`py-3 rounded-xl text-center text-sm sm:text-base font-extrabold border transition-all ${
+                      className={`py-3 rounded-2xl text-center text-sm sm:text-base font-extrabold transition-all ${
                         wordCount === cnt
-                          ? "border-[var(--accent-primary)] bg-[var(--accent-subtle)] text-[var(--accent-primary)] shadow-sm scale-102"
-                          : "border-[var(--border-subtle)] bg-[var(--bg-card)] text-[var(--text-secondary)] hover:border-[var(--border-active)]"
+                          ? "bg-gradient-to-br from-[#F59E0B] to-[#D97706] text-[#0B0F19] shadow-[0_6px_14px_rgba(245,158,11,0.35),inset_1px_1px_2px_rgba(255,255,255,0.6)] scale-102"
+                          : "clay-card bg-[var(--bg-card)] text-[var(--text-secondary)] hover:text-white shadow-[var(--clay-pill-shadow)] hover:border-[var(--border-active)]"
                       } ${mode === "daily" ? "opacity-60 cursor-not-allowed" : ""}`}
                     >
                       {cnt}
-                      <span className="block text-[10px] font-normal text-[var(--text-muted)]">
+                      <span className="block text-[10px] font-bold opacity-80">
                         {cnt === 1 ? "word" : "words"}
                       </span>
                     </button>
@@ -773,10 +773,10 @@ function PlayContent() {
               {/* CONTROL B: Display Duration */}
               <div>
                 <div className="flex items-center justify-between mb-2.5">
-                  <label className="text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)]">
+                  <label className="text-xs font-extrabold uppercase tracking-wider text-[var(--text-secondary)]">
                     B. Flash Duration
                   </label>
-                  <span className="text-sm font-mono font-bold text-[var(--color-mint)]">
+                  <span className="text-sm font-mono font-black text-[var(--color-mint)]">
                     {displayDuration} seconds
                   </span>
                 </div>
@@ -792,10 +792,10 @@ function PlayContent() {
                         setDisplayDuration(sec);
                         savePreference("duration", String(sec));
                       }}
-                      className={`py-2 rounded-xl text-xs sm:text-sm font-bold border transition-all ${
+                      className={`py-2 rounded-2xl text-xs sm:text-sm font-extrabold transition-all ${
                         displayDuration === sec
-                          ? "border-[var(--color-mint)] bg-[var(--color-mint-subtle)] text-[var(--color-mint)]"
-                          : "border-[var(--border-subtle)] bg-[var(--bg-card)] text-[var(--text-secondary)] hover:border-[var(--border-active)]"
+                          ? "bg-gradient-to-br from-[#10B981] to-[#059669] text-[#042F2E] shadow-[0_6px_14px_rgba(16,185,129,0.35),inset_1px_1px_2px_rgba(255,255,255,0.6)]"
+                          : "clay-card bg-[var(--bg-card)] text-[var(--text-secondary)] hover:text-white shadow-[var(--clay-pill-shadow)]"
                       } ${mode === "daily" || mode === "speed" ? "opacity-60 cursor-not-allowed" : ""}`}
                     >
                       {sec}s
@@ -818,7 +818,7 @@ function PlayContent() {
                   }}
                   className="w-full accent-[var(--accent-primary)] cursor-pointer"
                 />
-                <div className="flex justify-between text-[10px] text-[var(--text-muted)] mt-1">
+                <div className="flex justify-between text-[10px] text-[var(--text-muted)] font-medium mt-1">
                   <span>1s (Rapid)</span>
                   <span>15s (Standard)</span>
                   <span>30s (Extended)</span>
@@ -827,7 +827,7 @@ function PlayContent() {
 
               {/* CONTROL C: Category */}
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)] mb-2.5">
+                <label className="block text-xs font-extrabold uppercase tracking-wider text-[var(--text-secondary)] mb-2.5">
                   C. Word Category
                 </label>
                 <select
@@ -837,17 +837,17 @@ function PlayContent() {
                     setCategoryId(e.target.value);
                     savePreference("category", e.target.value);
                   }}
-                  className={`w-full py-2.5 px-3.5 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] focus:border-[var(--accent-primary)] focus:outline-none text-sm text-[var(--text-primary)] cursor-pointer ${
+                  className={`w-full py-3 px-4 rounded-2xl clay-input text-sm font-bold text-[var(--text-primary)] cursor-pointer ${
                     mode === "daily" ? "opacity-60 cursor-not-allowed" : ""
                   }`}
                 >
                   {CATEGORIES.map((cat) => (
-                    <option key={cat.id} value={cat.slug}>
+                    <option key={cat.id} value={cat.slug} className="bg-[var(--bg-card)] text-white">
                       {cat.name} ({cat.difficulty.toUpperCase()})
                     </option>
                   ))}
                 </select>
-                <p className="text-[11px] text-[var(--text-muted)] mt-1.5">
+                <p className="text-[11px] text-[var(--text-muted)] mt-1.5 font-medium">
                   {CATEGORIES.find((c) => c.slug === categoryId)?.description}
                 </p>
               </div>
@@ -856,10 +856,10 @@ function PlayContent() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* Difficulty */}
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)] mb-2">
+                  <label className="block text-xs font-extrabold uppercase tracking-wider text-[var(--text-secondary)] mb-2">
                     D. Difficulty
                   </label>
-                  <div className="grid grid-cols-4 gap-1.5">
+                  <div className="grid grid-cols-4 gap-2">
                     {(["easy", "normal", "hard", "expert"] as const).map((diff) => (
                       <button
                         key={diff}
@@ -869,10 +869,10 @@ function PlayContent() {
                           setDifficulty(diff);
                           savePreference("difficulty", diff);
                         }}
-                        className={`py-2 rounded-xl text-xs font-bold border transition-all capitalize ${
+                        className={`py-2 rounded-2xl text-xs font-extrabold transition-all capitalize ${
                           difficulty === diff
-                            ? "border-[var(--accent-primary)] bg-[var(--accent-subtle)] text-[var(--accent-primary)]"
-                            : "border-[var(--border-subtle)] bg-[var(--bg-card)] text-[var(--text-secondary)]"
+                            ? "bg-gradient-to-br from-[#F59E0B] to-[#D97706] text-[#0B0F19] shadow-[0_4px_10px_rgba(245,158,11,0.35),inset_1px_1px_2px_rgba(255,255,255,0.6)]"
+                            : "clay-card bg-[var(--bg-card)] text-[var(--text-secondary)] shadow-[var(--clay-pill-shadow)]"
                         } ${mode === "daily" ? "opacity-60 cursor-not-allowed" : ""}`}
                       >
                         {diff}
@@ -883,10 +883,10 @@ function PlayContent() {
 
                 {/* Mode */}
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)] mb-2">
+                  <label className="block text-xs font-extrabold uppercase tracking-wider text-[var(--text-secondary)] mb-2">
                     E. Game Mode
                   </label>
-                  <div className="grid grid-cols-2 gap-1.5">
+                  <div className="grid grid-cols-2 gap-2">
                     {[
                       { id: "recall", label: "Recall Test", icon: Brain },
                       { id: "classic", label: "Classic Flash", icon: Eye },
@@ -901,10 +901,10 @@ function PlayContent() {
                           setIsDailyChallenge(false);
                           savePreference("mode", m.id);
                         }}
-                        className={`py-2 px-2.5 rounded-xl text-xs font-bold border transition-all flex items-center gap-1.5 ${
+                        className={`py-2.5 px-3 rounded-2xl text-xs font-extrabold transition-all flex items-center gap-1.5 ${
                           mode === m.id
-                            ? "border-[var(--accent-primary)] bg-[var(--accent-subtle)] text-[var(--accent-primary)]"
-                            : "border-[var(--border-subtle)] bg-[var(--bg-card)] text-[var(--text-secondary)]"
+                            ? "bg-gradient-to-br from-[#F59E0B] to-[#D97706] text-[#0B0F19] shadow-[0_4px_10px_rgba(245,158,11,0.35),inset_1px_1px_2px_rgba(255,255,255,0.6)]"
+                            : "clay-card bg-[var(--bg-card)] text-[var(--text-secondary)] shadow-[var(--clay-pill-shadow)]"
                         }`}
                       >
                         <m.icon className="w-3.5 h-3.5 shrink-0" />
@@ -917,8 +917,8 @@ function PlayContent() {
 
               {/* Recall Mode Preferences (if recall/speed/survival/daily) */}
               {mode !== "classic" && (
-                <div className="pt-2 border-t border-[var(--border-subtle)] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
-                  <span className="text-[var(--text-secondary)] font-medium">
+                <div className="pt-3 border-t border-[var(--border-subtle)] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+                  <span className="text-[var(--text-secondary)] font-extrabold">
                     Recall Input Method:
                   </span>
                   <div className="flex gap-2">
@@ -928,10 +928,10 @@ function PlayContent() {
                         setRecallMethod("choice");
                         savePreference("method", "choice");
                       }}
-                      className={`px-3 py-1.5 rounded-xl border font-semibold ${
+                      className={`px-3.5 py-1.5 rounded-2xl font-extrabold text-xs transition-all ${
                         recallMethod === "choice"
-                          ? "border-[var(--accent-primary)] bg-[var(--accent-subtle)] text-[var(--accent-primary)]"
-                          : "border-[var(--border-subtle)] text-[var(--text-muted)]"
+                          ? "bg-gradient-to-r from-[#F59E0B] to-[#D97706] text-[#0B0F19] shadow-[0_4px_10px_rgba(245,158,11,0.35),inset_1px_1px_2px_rgba(255,255,255,0.6)]"
+                          : "clay-card bg-[var(--bg-card)] text-[var(--text-muted)] shadow-[var(--clay-pill-shadow)] hover:text-white"
                       }`}
                     >
                       Multiple Choice
@@ -942,10 +942,10 @@ function PlayContent() {
                         setRecallMethod("typing");
                         savePreference("method", "typing");
                       }}
-                      className={`px-3 py-1.5 rounded-xl border font-semibold ${
+                      className={`px-3.5 py-1.5 rounded-2xl font-extrabold text-xs transition-all ${
                         recallMethod === "typing"
-                          ? "border-[var(--accent-primary)] bg-[var(--accent-subtle)] text-[var(--accent-primary)]"
-                          : "border-[var(--border-subtle)] text-[var(--text-muted)]"
+                          ? "bg-gradient-to-r from-[#F59E0B] to-[#D97706] text-[#0B0F19] shadow-[0_4px_10px_rgba(245,158,11,0.35),inset_1px_1px_2px_rgba(255,255,255,0.6)]"
+                          : "clay-card bg-[var(--bg-card)] text-[var(--text-muted)] shadow-[var(--clay-pill-shadow)] hover:text-white"
                       }`}
                     >
                       Type Words
@@ -958,12 +958,12 @@ function PlayContent() {
               <div className="pt-4 border-t border-[var(--border-subtle)] flex flex-col sm:flex-row items-center justify-between gap-3">
                 <div className="text-[11px] text-[var(--text-muted)] flex items-center gap-2">
                   <span>Selected:</span>
-                  <span className="font-semibold text-[var(--text-primary)]">
+                  <span className="font-extrabold text-[var(--text-primary)]">
                     {wordCount} words • {displayDuration}s • {CATEGORIES.find((c) => c.slug === categoryId)?.name}
                   </span>
                 </div>
 
-                <div className="flex items-center gap-2.5 w-full sm:w-auto">
+                <div className="flex items-center gap-3 w-full sm:w-auto">
                   <button
                     type="button"
                     onClick={() => {
@@ -974,18 +974,18 @@ function PlayContent() {
                       setMode("recall");
                       setIsDailyChallenge(false);
                     }}
-                    className="btn-secondary py-2.5 px-4 text-xs font-semibold"
+                    className="clay-btn-secondary py-2.5 px-5 text-xs font-bold"
                   >
                     Reset
                   </button>
                   <button
                     type="button"
                     onClick={startGame}
-                    className="btn-primary flex-1 sm:flex-none py-2.5 px-6 text-sm font-bold flex items-center justify-center gap-2"
+                    className="clay-btn-primary flex-1 sm:flex-none py-3 px-8 text-sm font-extrabold flex items-center justify-center gap-2"
                   >
                     <Play className="w-4 h-4 fill-current" />
                     Start Game
-                    <span className="kbd-shortcut bg-black/10 border-black/20 text-black hidden sm:inline-block">
+                    <span className="kbd-shortcut bg-black/15 border-black/25 text-black hidden sm:inline-block">
                       Space
                     </span>
                   </button>
@@ -998,11 +998,11 @@ function PlayContent() {
         {/* ==================== 2. COUNTDOWN SCREEN ==================== */}
         {gameState === "countdown" && (
           <div className="text-center animate-fadeIn py-20 flex flex-col items-center">
-            <span className="text-xs uppercase tracking-widest text-[var(--accent-primary)] font-bold block mb-4">
+            <span className="clay-badge text-[var(--accent-primary)] font-extrabold mb-5">
               FOCUS & MEMORIZE
             </span>
-            <div className="w-28 h-28 rounded-2xl border border-[var(--border-active)] bg-[var(--bg-secondary)] flex items-center justify-center shadow-xl">
-              <span className="text-6xl font-mono font-black text-white">
+            <div className="w-32 h-32 rounded-3xl bg-[var(--bg-card)] border border-[var(--border-active)] shadow-[var(--clay-card-shadow)] flex items-center justify-center">
+              <span className="text-6xl font-mono font-black text-white drop-shadow-md">
                 {countdownNum === 0 ? "GO" : countdownNum}
               </span>
             </div>
@@ -1013,11 +1013,11 @@ function PlayContent() {
         {gameState === "showing_words" && (
           <div className="w-full flex flex-col items-center animate-fadeIn">
             {/* Gameplay Compact Header */}
-            <div className="w-full max-w-4xl flex items-center justify-between mb-6 pb-3 border-b border-[var(--border-subtle)]">
+            <div className="w-full max-w-4xl flex items-center justify-between mb-6 pb-3.5 border-b border-[var(--border-subtle)]">
               <div className="flex items-center gap-3">
                 <button
                   onClick={togglePause}
-                  className="p-2 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--border-active)] text-[var(--text-secondary)] hover:text-white transition-all flex items-center gap-1.5"
+                  className="p-2.5 rounded-2xl clay-card bg-[var(--bg-card)] text-[var(--text-secondary)] hover:text-white transition-all flex items-center gap-1.5 shadow-[var(--clay-pill-shadow)]"
                   title="Pause game"
                 >
                   <Pause className="w-4 h-4" />
@@ -1025,7 +1025,7 @@ function PlayContent() {
                 </button>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-bold text-[var(--accent-primary)] uppercase tracking-wider block">
+                    <span className="text-xs font-black text-[var(--accent-primary)] uppercase tracking-wider block">
                       {mode.toUpperCase()} MODE
                     </span>
                     {mode === "survival" && (
@@ -1034,21 +1034,21 @@ function PlayContent() {
                           <Heart
                             key={heart}
                             className={`w-3.5 h-3.5 ${
-                              heart <= lives ? "text-red-500 fill-red-500" : "text-slate-600 fill-slate-700"
+                              heart <= lives ? "text-red-500 fill-red-500 drop-shadow-sm" : "text-slate-600 fill-slate-700"
                             }`}
                           />
                         ))}
                       </div>
                     )}
                   </div>
-                  <span className="text-[11px] text-[var(--text-muted)]">
+                  <span className="text-[11px] text-[var(--text-muted)] font-medium">
                     {CATEGORIES.find((c) => c.slug === categoryId)?.name}
                   </span>
                 </div>
               </div>
 
               {/* Central Timer */}
-              <div className="flex items-center gap-2 px-4 py-1.5 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-active)] shadow-sm">
+              <div className="flex items-center gap-2 px-5 py-2 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-active)] shadow-[var(--clay-pill-shadow)]">
                 <Timer
                   className={`w-4 h-4 ${
                     timeRemaining <= 2 ? "text-red-400 animate-pulse" : "text-[var(--accent-primary)]"
@@ -1065,26 +1065,28 @@ function PlayContent() {
 
               <button
                 onClick={resetGame}
-                className="p-2 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--border-active)] text-[var(--text-secondary)] hover:text-red-400 transition-all"
+                className="p-2.5 rounded-2xl clay-card bg-[var(--bg-card)] text-[var(--text-secondary)] hover:text-red-400 shadow-[var(--clay-pill-shadow)] transition-all"
                 title="Abandon round"
               >
                 <RotateCcw className="w-4 h-4" />
               </button>
             </div>
 
-            {/* Timer Progress Bar */}
-            <div className="w-full max-w-4xl h-1.5 bg-[var(--border-subtle)] rounded-full mb-8 overflow-hidden">
+            {/* Timer Progress Bar (Sunken 3D track) */}
+            <div className="w-full max-w-4xl h-2.5 bg-[var(--bg-secondary)] rounded-full mb-8 overflow-hidden shadow-[var(--clay-sunken-shadow)] border border-[var(--border-subtle)]">
               <div
-                className={`h-full transition-all duration-75 ${
-                  timeRemaining <= 2 ? "bg-red-500" : "bg-[var(--accent-primary)]"
+                className={`h-full rounded-full transition-all duration-75 ${
+                  timeRemaining <= 2
+                    ? "bg-gradient-to-r from-red-500 to-rose-600 shadow-[0_2px_8px_rgba(244,63,94,0.5)]"
+                    : "bg-gradient-to-r from-[#F59E0B] to-[#D97706] shadow-[0_2px_8px_rgba(245,158,11,0.5)]"
                 }`}
                 style={{ width: `${(timeRemaining / timerDurationRef.current) * 100}%` }}
               />
             </div>
 
-            {/* Word Grid Layout */}
+            {/* Word Grid Layout (Tactile 3D Clay Tiles) */}
             <div
-              className={`w-full max-w-4xl gap-3 sm:gap-4 ${
+              className={`w-full max-w-4xl gap-3.5 sm:gap-4 ${
                 roundWords.length === 1
                   ? "flex items-center justify-center py-12"
                   : roundWords.length <= 5
@@ -1097,15 +1099,15 @@ function PlayContent() {
               {roundWords.map((item, index) => (
                 <div
                   key={item.id}
-                  className={`flash-card flex flex-col items-center justify-center text-center p-6 sm:p-7 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-sm transition-all hover:border-[var(--border-active)] ${
-                    roundWords.length === 1 ? "max-w-md w-full py-14" : ""
+                  className={`clay-card flex flex-col items-center justify-center text-center p-6 sm:p-8 rounded-3xl bg-[var(--bg-card)] border border-[var(--border-subtle)] transition-all hover:scale-102 ${
+                    roundWords.length === 1 ? "max-w-md w-full py-16" : ""
                   }`}
                 >
-                  <span className="text-[10px] font-mono font-bold text-[var(--accent-primary)] mb-1.5">
-                    {String(index + 1).padStart(2, "0")}
+                  <span className="text-[10px] font-mono font-extrabold text-[var(--accent-primary)] mb-2 px-2 py-0.5 rounded-full bg-[var(--bg-secondary)] shadow-[var(--clay-pill-shadow)]">
+                    #{String(index + 1).padStart(2, "0")}
                   </span>
                   <div
-                    className={`font-mono font-black tracking-wide text-white uppercase select-none ${
+                    className={`font-mono font-black tracking-wider text-white uppercase select-none drop-shadow-sm ${
                       roundWords.length === 1
                         ? "text-3xl sm:text-5xl"
                         : roundWords.length <= 5
@@ -1123,20 +1125,20 @@ function PlayContent() {
 
         {/* ==================== 4. PAUSED OVERLAY ==================== */}
         {gameState === "paused" && (
-          <div className="text-center p-8 max-w-md w-full flash-card rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-active)] shadow-2xl animate-fadeIn">
-            <div className="w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center mx-auto mb-3">
-              <Pause className="w-6 h-6" />
+          <div className="text-center p-8 max-w-md w-full clay-card rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-active)] animate-fadeIn">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#F59E0B]/20 to-[#D97706]/20 text-amber-400 flex items-center justify-center mx-auto mb-3.5 shadow-[var(--clay-pill-shadow)]">
+              <Pause className="w-7 h-7" />
             </div>
-            <h2 className="text-2xl font-extrabold text-[var(--text-primary)] mb-1">Game Paused</h2>
-            <p className="text-xs text-[var(--text-secondary)] mb-6">
+            <h2 className="text-2xl font-black text-[var(--text-primary)] mb-1">Game Paused</h2>
+            <p className="text-xs text-[var(--text-secondary)] mb-6 font-medium">
               Timer frozen at {timeRemaining.toFixed(1)}s. Take a breather.
             </p>
 
-            <div className="flex flex-col gap-2.5">
-              <button onClick={togglePause} className="btn-primary py-2.5 text-sm font-bold">
+            <div className="flex flex-col gap-3">
+              <button onClick={togglePause} className="clay-btn-primary py-3 text-sm font-extrabold">
                 Resume Game
               </button>
-              <button onClick={resetGame} className="btn-secondary py-2.5 text-xs font-semibold">
+              <button onClick={resetGame} className="clay-btn-secondary py-2.5 text-xs font-bold">
                 Abandon Round & Return to Setup
               </button>
             </div>
@@ -1171,9 +1173,9 @@ function PlayContent() {
             {recallMethod === "choice" && (
               <div className="w-full space-y-6 mb-8">
                 {/* View Mode Toggle & Step Dots */}
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pb-3 border-b border-[var(--border-subtle)] text-xs">
-                  {/* Step dots */}
-                  <div className="flex items-center gap-1.5 flex-wrap justify-center">
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-3.5 pb-4 border-b border-[var(--border-subtle)] text-xs">
+                  {/* Step dots (Tactile 3D Beads) */}
+                  <div className="flex items-center gap-2 flex-wrap justify-center">
                     {roundWords.map((_, i) => {
                       const isAnswered = !!userAnswers[roundWords[i].id];
                       const isCurrent = activeRecallIdx === i;
@@ -1182,12 +1184,12 @@ function PlayContent() {
                           key={i}
                           type="button"
                           onClick={() => setActiveRecallIdx(i)}
-                          className={`w-7 h-7 rounded-lg text-xs font-mono font-bold flex items-center justify-center transition-all ${
+                          className={`w-8 h-8 rounded-xl text-xs font-mono font-black flex items-center justify-center transition-all ${
                             isCurrent
-                              ? "border-2 border-[var(--accent-primary)] bg-[var(--accent-primary)] text-black"
+                              ? "bg-gradient-to-br from-[#F59E0B] to-[#D97706] text-[#0B0F19] shadow-[0_4px_10px_rgba(245,158,11,0.35),inset_1px_1px_2px_rgba(255,255,255,0.6)] scale-110"
                               : isAnswered
-                              ? "bg-[var(--color-mint)]/20 text-[var(--color-mint)] border border-[var(--color-mint)]/40"
-                              : "bg-[var(--bg-card)] text-[var(--text-muted)] border border-[var(--border-subtle)] hover:border-[var(--border-active)]"
+                              ? "bg-gradient-to-br from-[#10B981] to-[#059669] text-[#042F2E] shadow-[0_2px_6px_rgba(16,185,129,0.35),inset_1px_1px_2px_rgba(255,255,255,0.6)]"
+                              : "clay-card bg-[var(--bg-card)] text-[var(--text-muted)] shadow-[var(--clay-pill-shadow)] hover:text-white"
                           }`}
                         >
                           {isAnswered ? "✓" : i + 1}
@@ -1201,10 +1203,10 @@ function PlayContent() {
                     <button
                       type="button"
                       onClick={() => setRecallViewMode("focus")}
-                      className={`px-2.5 py-1 rounded-lg text-xs font-medium border flex items-center gap-1 ${
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
                         recallViewMode === "focus"
-                          ? "border-[var(--accent-primary)] bg-[var(--accent-subtle)] text-[var(--accent-primary)]"
-                          : "border-[var(--border-subtle)] text-[var(--text-muted)]"
+                          ? "bg-gradient-to-r from-[#F59E0B] to-[#D97706] text-[#0B0F19] shadow-[0_2px_8px_rgba(245,158,11,0.35)]"
+                          : "clay-card text-[var(--text-muted)] hover:text-white"
                       }`}
                     >
                       <Layers className="w-3.5 h-3.5" /> Focus Mode
@@ -1212,10 +1214,10 @@ function PlayContent() {
                     <button
                       type="button"
                       onClick={() => setRecallViewMode("grid")}
-                      className={`px-2.5 py-1 rounded-lg text-xs font-medium border flex items-center gap-1 ${
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
                         recallViewMode === "grid"
-                          ? "border-[var(--accent-primary)] bg-[var(--accent-subtle)] text-[var(--accent-primary)]"
-                          : "border-[var(--border-subtle)] text-[var(--text-muted)]"
+                          ? "bg-gradient-to-r from-[#F59E0B] to-[#D97706] text-[#0B0F19] shadow-[0_2px_8px_rgba(245,158,11,0.35)]"
+                          : "clay-card text-[var(--text-muted)] hover:text-white"
                       }`}
                     >
                       <Grid className="w-3.5 h-3.5" /> Grid View
@@ -1225,17 +1227,17 @@ function PlayContent() {
 
                 {/* 1. FOCUS VIEW (Card-by-Card Rapid Fire) */}
                 {recallViewMode === "focus" && roundWords[activeRecallIdx] && (
-                  <div className="w-full max-w-xl mx-auto flash-card p-6 sm:p-8 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-active)] shadow-xl animate-fadeIn">
-                    <div className="flex items-center justify-between mb-4 text-xs font-mono">
-                      <span className="text-[var(--accent-primary)] font-bold">
+                  <div className="w-full max-w-xl mx-auto clay-card p-6 sm:p-8 rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-subtle)] animate-fadeIn">
+                    <div className="flex items-center justify-between mb-5 text-xs font-mono">
+                      <span className="clay-badge text-[var(--accent-primary)] font-black">
                         CARD {activeRecallIdx + 1} OF {roundWords.length}
                       </span>
-                      <span className="text-[var(--text-muted)]">
+                      <span className="text-[var(--text-muted)] font-bold">
                         Answered: {Object.keys(userAnswers).length} / {roundWords.length}
                       </span>
                     </div>
 
-                    <div className="space-y-3 mb-6">
+                    <div className="space-y-3.5 mb-6">
                       {roundWords[activeRecallIdx].choices.map((choice, choiceIdx) => {
                         const selected = userAnswers[roundWords[activeRecallIdx].id] === choice;
                         return (
@@ -1245,35 +1247,37 @@ function PlayContent() {
                             onClick={() =>
                               handleSelectChoice(roundWords[activeRecallIdx].id, choice, activeRecallIdx)
                             }
-                            className={`w-full p-4 rounded-xl text-sm sm:text-base font-bold border transition-all text-left flex items-center justify-between group ${
+                            className={`w-full p-4 sm:p-5 rounded-2xl text-sm sm:text-base font-extrabold transition-all text-left flex items-center justify-between group ${
                               selected
-                                ? "border-[var(--accent-primary)] bg-[var(--accent-primary)] text-black shadow-md scale-101"
-                                : "border-[var(--border-subtle)] bg-[var(--bg-card)] text-[var(--text-secondary)] hover:border-[var(--border-active)] hover:text-white"
+                                ? "bg-gradient-to-br from-[#F59E0B] to-[#D97706] text-[#0B0F19] shadow-[0_8px_20px_rgba(245,158,11,0.4),inset_2px_2px_3px_rgba(255,255,255,0.6),inset_-2px_-2px_4px_rgba(180,83,9,0.7)] scale-102"
+                                : "clay-card bg-[var(--bg-card)] text-[var(--text-primary)] hover:text-white shadow-[var(--clay-btn-secondary-shadow)] hover:border-[var(--accent-primary)] hover:-translate-y-0.5 active:translate-y-0.5"
                             }`}
                           >
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-3.5">
                               <span
-                                className={`w-6 h-6 rounded-md font-mono text-xs font-bold flex items-center justify-center ${
-                                  selected ? "bg-black text-white" : "bg-[var(--bg-secondary)] text-[var(--text-muted)]"
+                                className={`w-7 h-7 rounded-xl font-mono text-xs font-black flex items-center justify-center ${
+                                  selected
+                                    ? "bg-[#0B0F19] text-[#F59E0B] shadow-inner"
+                                    : "bg-[var(--bg-secondary)] text-[var(--text-secondary)] shadow-[var(--clay-pill-shadow)]"
                                 }`}
                               >
                                 {choiceIdx + 1}
                               </span>
-                              <span>{choice}</span>
+                              <span className="tracking-wide">{choice}</span>
                             </div>
-                            {selected && <Check className="w-4 h-4 text-black" />}
+                            {selected && <Check className="w-5 h-5 text-[#0B0F19] stroke-[3]" />}
                           </button>
                         );
                       })}
                     </div>
 
                     {/* Step Navigation Arrows */}
-                    <div className="flex items-center justify-between pt-3 border-t border-[var(--border-subtle)] text-xs">
+                    <div className="flex items-center justify-between pt-4 border-t border-[var(--border-subtle)] text-xs">
                       <button
                         type="button"
                         disabled={activeRecallIdx === 0}
                         onClick={() => setActiveRecallIdx((p) => Math.max(0, p - 1))}
-                        className="px-3 py-1.5 rounded-lg border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-white disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-1"
+                        className="clay-btn-secondary px-4 py-2 text-xs font-bold rounded-2xl disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-1.5"
                       >
                         <ArrowLeft className="w-3.5 h-3.5" /> Previous Card
                       </button>
@@ -1282,7 +1286,7 @@ function PlayContent() {
                         type="button"
                         disabled={activeRecallIdx === roundWords.length - 1}
                         onClick={() => setActiveRecallIdx((p) => Math.min(roundWords.length - 1, p + 1))}
-                        className="px-3 py-1.5 rounded-lg border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-white disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-1"
+                        className="clay-btn-secondary px-4 py-2 text-xs font-bold rounded-2xl disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-1.5"
                       >
                         Next Card <ArrowRight className="w-3.5 h-3.5" />
                       </button>
@@ -1299,15 +1303,15 @@ function PlayContent() {
                         <div
                           key={item.id}
                           onClick={() => setActiveRecallIdx(idx)}
-                          className={`flash-card p-4 sm:p-5 rounded-xl bg-[var(--bg-secondary)] border transition-all ${
-                            isCurrentActive ? "border-[var(--border-focus)] shadow-md" : "border-[var(--border-subtle)]"
+                          className={`clay-card p-4 sm:p-5 rounded-2xl bg-[var(--bg-secondary)] border transition-all ${
+                            isCurrentActive ? "border-[var(--accent-primary)] shadow-lg" : "border-[var(--border-subtle)]"
                           }`}
                         >
                           <div className="flex items-center justify-between mb-3 text-xs text-[var(--text-muted)]">
-                            <span className="font-bold text-[var(--accent-primary)] font-mono">
+                            <span className="font-extrabold text-[var(--accent-primary)] font-mono">
                               POSITION #{String(idx + 1).padStart(2, "0")}
                             </span>
-                            <span className="text-[11px]">Select 1 of 4:</span>
+                            <span className="text-[11px] font-medium">Select 1 of 4:</span>
                           </div>
 
                           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
@@ -1321,10 +1325,10 @@ function PlayContent() {
                                     e.stopPropagation();
                                     handleSelectChoice(item.id, choice, idx);
                                   }}
-                                  className={`p-3 rounded-lg text-xs sm:text-sm font-bold border transition-all text-center relative flex items-center justify-center ${
+                                  className={`p-3.5 rounded-2xl text-xs sm:text-sm font-extrabold transition-all text-center relative flex items-center justify-center ${
                                     selected
-                                      ? "border-[var(--accent-primary)] bg-[var(--accent-primary)] text-black font-extrabold shadow-sm scale-102"
-                                      : "border-[var(--border-subtle)] bg-[var(--bg-card)] text-[var(--text-secondary)] hover:border-[var(--border-active)] hover:text-white"
+                                      ? "bg-gradient-to-br from-[#F59E0B] to-[#D97706] text-[#0B0F19] shadow-[0_6px_14px_rgba(245,158,11,0.35),inset_1px_1px_2px_rgba(255,255,255,0.6)] scale-102"
+                                      : "clay-card bg-[var(--bg-card)] text-[var(--text-secondary)] hover:text-white shadow-[var(--clay-pill-shadow)] hover:border-[var(--border-active)]"
                                   }`}
                                 >
                                   <span className="absolute top-1.5 left-2 text-[9px] font-mono opacity-50">
@@ -1346,12 +1350,12 @@ function PlayContent() {
                   <button
                     type="button"
                     onClick={handleSubmitRecall}
-                    className="w-full btn-primary py-3.5 text-base font-bold shadow-md flex items-center justify-center gap-2"
+                    className="w-full clay-btn-primary py-4 text-base font-extrabold rounded-2xl flex items-center justify-center gap-2"
                   >
                     <span>
                       Submit Answers ({Object.keys(userAnswers).length} / {roundWords.length} completed)
                     </span>
-                    <span className="kbd-shortcut bg-black/10 border-black/20 text-black">Enter</span>
+                    <span className="kbd-shortcut bg-black/15 border-black/25 text-black">Enter</span>
                   </button>
                 </div>
               </div>
@@ -1360,23 +1364,23 @@ function PlayContent() {
             {/* TYPING METHOD */}
             {recallMethod === "typing" && (
               <div className="w-full max-w-xl space-y-6 mb-8">
-                <form onSubmit={handleAddTypedWord} className="flex gap-2">
+                <form onSubmit={handleAddTypedWord} className="flex gap-2.5">
                   <input
                     type="text"
                     autoFocus
                     value={typedInput}
                     onChange={(e) => setTypedInput(e.target.value)}
                     placeholder="Type a remembered word and press Enter..."
-                    className="flex-1 px-4 py-3 text-sm rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-subtle)] focus:border-[var(--accent-primary)] focus:outline-none text-[var(--text-primary)]"
+                    className="flex-1 px-4 py-3.5 text-sm rounded-2xl clay-input text-[var(--text-primary)] font-bold placeholder:font-normal placeholder:text-[var(--text-muted)]"
                   />
-                  <button type="submit" className="btn-primary py-3 px-5 text-sm font-bold">
+                  <button type="submit" className="clay-btn-primary py-3.5 px-6 text-sm font-extrabold rounded-2xl">
                     Add
                   </button>
                 </form>
 
                 {/* Submitted Chips */}
-                <div className="min-h-[100px] p-4 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-subtle)]">
-                  <span className="text-xs text-[var(--text-muted)] block mb-2 font-medium">
+                <div className="min-h-[100px] p-5 rounded-3xl clay-card bg-[var(--bg-secondary)] border border-[var(--border-subtle)]">
+                  <span className="text-xs text-[var(--text-muted)] block mb-3 font-bold">
                     Your Recalled Words ({submittedTypedWords.length} / {roundWords.length} entered):
                   </span>
                   {submittedTypedWords.length === 0 ? (
@@ -1384,17 +1388,17 @@ function PlayContent() {
                       Type words above as you remember them. Order does not matter.
                     </p>
                   ) : (
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2.5">
                       {submittedTypedWords.map((w) => (
                         <span
                           key={w}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--bg-card)] border border-[var(--border-active)] text-xs font-bold text-[var(--text-primary)]"
+                          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--bg-card)] border border-[var(--border-active)] shadow-[var(--clay-pill-shadow)] text-xs font-black text-white"
                         >
                           {w}
                           <button
                             type="button"
                             onClick={() => removeTypedWord(w)}
-                            className="text-[var(--text-muted)] hover:text-red-400"
+                            className="text-[var(--text-muted)] hover:text-red-400 font-bold ml-0.5"
                           >
                             ×
                           </button>
@@ -1407,10 +1411,10 @@ function PlayContent() {
                 <button
                   type="button"
                   onClick={handleSubmitRecall}
-                  className="w-full btn-primary py-3.5 text-base font-bold shadow-lg flex items-center justify-center gap-2"
+                  className="w-full clay-btn-primary py-4 text-base font-extrabold rounded-2xl flex items-center justify-center gap-2"
                 >
                   <span>Submit ({submittedTypedWords.length} / {roundWords.length} words entered)</span>
-                  <span className="kbd-shortcut bg-black/10 border-black/20 text-black">Enter</span>
+                  <span className="kbd-shortcut bg-black/15 border-black/25 text-black">Enter</span>
                 </button>
               </div>
             )}
@@ -1421,8 +1425,8 @@ function PlayContent() {
         {gameState === "results" && resultData && (
           <div className="w-full max-w-2xl animate-fadeIn space-y-5">
             {/* Header Tier Banner */}
-            <div className="p-6 sm:p-8 rounded-2xl flash-card bg-[var(--bg-secondary)] border border-[var(--border-active)] shadow-xl text-center relative overflow-hidden">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--bg-card)] border border-[var(--border-subtle)] text-xs font-bold text-[var(--accent-primary)] mb-3">
+            <div className="p-6 sm:p-8 rounded-3xl clay-card bg-[var(--bg-secondary)] border border-[var(--border-subtle)] text-center relative overflow-hidden">
+              <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full clay-badge text-[var(--accent-primary)] font-extrabold mb-4">
                 <Sparkles className="w-3.5 h-3.5" />
                 {isGameOver
                   ? "SURVIVAL RUN CONCLUDED"
@@ -1435,26 +1439,26 @@ function PlayContent() {
               {(() => {
                 const info = getGradeInfo(resultData.accuracy);
                 return (
-                  <div className="flex flex-col sm:flex-row items-center justify-center gap-5 my-2">
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-6 my-3">
                     <div
-                      className={`w-20 h-20 rounded-2xl border-2 ${info.border} bg-[var(--bg-card)] flex flex-col items-center justify-center shadow-lg`}
+                      className={`w-24 h-24 rounded-3xl border-2 ${info.border} bg-[var(--bg-card)] flex flex-col items-center justify-center shadow-[var(--clay-card-shadow)]`}
                     >
-                      <span className="text-3xl font-mono font-black leading-none">{info.grade}</span>
-                      <span className="text-[9px] font-bold uppercase tracking-wider text-[var(--text-muted)] mt-1">
+                      <span className="text-4xl font-mono font-black leading-none drop-shadow-sm">{info.grade}</span>
+                      <span className="text-[10px] font-extrabold uppercase tracking-wider text-[var(--text-muted)] mt-1.5">
                         {info.title}
                       </span>
                     </div>
 
                     <div className="text-center sm:text-left">
-                      <h2 className="text-3xl sm:text-4xl font-mono font-black text-white tracking-tight">
+                      <h2 className="text-3xl sm:text-4xl font-mono font-black text-white tracking-tight drop-shadow-sm">
                         {resultData.score.toLocaleString()} PTS
                       </h2>
-                      <div className="flex items-center justify-center sm:justify-start gap-2 mt-1">
-                        <span className="text-xs font-semibold text-[var(--color-mint)]">
+                      <div className="flex items-center justify-center sm:justify-start gap-2.5 mt-1.5">
+                        <span className="text-xs font-black text-[var(--color-mint)]">
                           +{resultData.xpEarned} XP Earned
                         </span>
                         {typeof resultData.avgResponseTime === "number" && (
-                          <span className="text-xs font-mono text-[var(--text-muted)]">
+                          <span className="text-xs font-mono font-bold text-[var(--text-muted)]">
                             • {resultData.avgResponseTime}ms / word
                           </span>
                         )}
@@ -1466,14 +1470,14 @@ function PlayContent() {
 
               {/* Survival Hearts status */}
               {mode === "survival" && (
-                <div className="mt-4 pt-3 border-t border-[var(--border-subtle)] flex items-center justify-center gap-2">
-                  <span className="text-xs text-[var(--text-secondary)] font-medium">Lives Remaining:</span>
-                  <div className="flex gap-1">
+                <div className="mt-5 pt-3.5 border-t border-[var(--border-subtle)] flex items-center justify-center gap-2.5">
+                  <span className="text-xs text-[var(--text-secondary)] font-bold">Lives Remaining:</span>
+                  <div className="flex gap-1.5">
                     {[1, 2, 3].map((heart) => (
                       <Heart
                         key={heart}
                         className={`w-4 h-4 ${
-                          heart <= lives ? "text-red-500 fill-red-500" : "text-slate-600 fill-slate-700"
+                          heart <= lives ? "text-red-500 fill-red-500 drop-shadow-sm" : "text-slate-600 fill-slate-700"
                         }`}
                       />
                     ))}
@@ -1483,57 +1487,57 @@ function PlayContent() {
             </div>
 
             {/* Score Breakdown Cards */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-              <div className="p-3.5 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-subtle)] text-center">
-                <span className="text-[10px] font-bold text-[var(--text-muted)] uppercase block mb-1">Accuracy</span>
-                <span className="text-xl font-mono font-black text-white">{resultData.accuracy}%</span>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="p-4 rounded-2xl clay-card bg-[var(--bg-card)] border border-[var(--border-subtle)] text-center shadow-[var(--clay-pill-shadow)]">
+                <span className="text-[10px] font-extrabold text-[var(--text-muted)] uppercase block mb-1">Accuracy</span>
+                <span className="text-2xl font-mono font-black text-white">{resultData.accuracy}%</span>
               </div>
-              <div className="p-3.5 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-subtle)] text-center">
-                <span className="text-[10px] font-bold text-[var(--text-muted)] uppercase block mb-1">
+              <div className="p-4 rounded-2xl clay-card bg-[var(--bg-card)] border border-[var(--border-subtle)] text-center shadow-[var(--clay-pill-shadow)]">
+                <span className="text-[10px] font-extrabold text-[var(--text-muted)] uppercase block mb-1">
                   {mode === "survival" ? "Stage Cleared" : mode === "speed" ? "Speed Stage" : "Difficulty"}
                 </span>
-                <span className="text-xl font-mono font-black text-white">
+                <span className="text-2xl font-mono font-black text-white">
                   {mode === "survival" ? survivalRound : mode === "speed" ? speedStage : `${resultData.difficultyMultiplier}x`}
                 </span>
               </div>
-              <div className="p-3.5 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-subtle)] text-center">
-                <span className="text-[10px] font-bold text-[var(--text-muted)] uppercase block mb-1">Speed Bonus</span>
-                <span className="text-xl font-mono font-black text-[var(--accent-primary)]">
+              <div className="p-4 rounded-2xl clay-card bg-[var(--bg-card)] border border-[var(--border-subtle)] text-center shadow-[var(--clay-pill-shadow)]">
+                <span className="text-[10px] font-extrabold text-[var(--text-muted)] uppercase block mb-1">Speed Bonus</span>
+                <span className="text-2xl font-mono font-black text-[var(--accent-primary)]">
                   +{resultData.speedBonus}
                 </span>
               </div>
-              <div className="p-3.5 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-subtle)] text-center">
-                <span className="text-[10px] font-bold text-[var(--text-muted)] uppercase block mb-1">Mode</span>
-                <span className="text-xl font-mono font-bold text-white capitalize">{mode}</span>
+              <div className="p-4 rounded-2xl clay-card bg-[var(--bg-card)] border border-[var(--border-subtle)] text-center shadow-[var(--clay-pill-shadow)]">
+                <span className="text-[10px] font-extrabold text-[var(--text-muted)] uppercase block mb-1">Mode</span>
+                <span className="text-2xl font-mono font-black text-white capitalize">{mode}</span>
               </div>
             </div>
 
             {/* Unlocked Achievements Banner */}
             {resultData.newlyUnlocked.length > 0 && (
-              <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300">
-                <div className="flex items-center gap-2 mb-2 font-bold text-sm">
-                  <Award className="w-4 h-4 text-amber-400" />
+              <div className="p-5 rounded-3xl clay-card bg-amber-500/10 border border-amber-500/30 text-amber-300">
+                <div className="flex items-center gap-2 mb-2 font-black text-sm">
+                  <Award className="w-5 h-5 text-amber-400" />
                   <span>Achievement Unlocked!</span>
                 </div>
                 {resultData.newlyUnlocked.map((ach) => (
-                  <div key={ach.name} className="text-xs text-[var(--text-secondary)]">
-                    <strong className="text-white">{ach.name}</strong> — +{ach.xpReward} XP
+                  <div key={ach.name} className="text-xs text-[var(--text-secondary)] font-medium">
+                    <strong className="text-white font-extrabold">{ach.name}</strong> — +{ach.xpReward} XP
                   </div>
                 ))}
               </div>
             )}
 
             {/* Word Review List */}
-            <div className="p-5 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-subtle)]">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)] mb-3">
+            <div className="p-6 rounded-3xl clay-card bg-[var(--bg-secondary)] border border-[var(--border-subtle)]">
+              <h3 className="text-xs font-black uppercase tracking-wider text-[var(--text-secondary)] mb-3.5">
                 Round Word Review
               </h3>
               <div className="divide-y divide-[var(--border-subtle)]">
                 {roundWords.map((item) => (
                   <div key={item.id} className="py-2.5 flex items-center justify-between text-xs">
                     <div>
-                      <span className="font-bold text-white mr-2">{item.word}</span>
-                      <span className="text-[10px] text-[var(--text-muted)]">{item.definition}</span>
+                      <span className="font-extrabold text-white mr-2">{item.word}</span>
+                      <span className="text-[11px] text-[var(--text-muted)]">{item.definition}</span>
                     </div>
                   </div>
                 ))}
@@ -1541,25 +1545,25 @@ function PlayContent() {
             </div>
 
             {/* Actions */}
-            <div className="flex flex-col sm:flex-row gap-2.5">
+            <div className="flex flex-col sm:flex-row gap-3">
               <button
                 type="button"
                 onClick={handleNextRound}
-                className="flex-1 btn-primary py-3 text-sm font-bold flex items-center justify-center gap-2"
+                className="flex-1 clay-btn-primary py-3.5 text-sm font-extrabold flex items-center justify-center gap-2 rounded-2xl"
               >
                 <Play className="w-4 h-4 fill-current" />
                 {isGameOver ? "Play Again (Reset)" : mode === "survival" ? "Next Stage →" : "Play Again"}
-                <span className="kbd-shortcut bg-black/10 border-black/20 text-black">Space</span>
+                <span className="kbd-shortcut bg-black/15 border-black/25 text-black">Space</span>
               </button>
 
               <button
                 type="button"
                 onClick={handleShareScore}
-                className="btn-secondary py-3 px-4 text-xs font-semibold flex items-center justify-center gap-1.5"
+                className="clay-btn-secondary py-3.5 px-5 text-xs font-bold flex items-center justify-center gap-1.5 rounded-2xl"
               >
                 {copiedShare ? (
                   <>
-                    <Check className="w-4 h-4 text-emerald-400" />
+                    <Check className="w-4 h-4 text-emerald-400 stroke-[3]" />
                     <span>Copied!</span>
                   </>
                 ) : (
@@ -1573,7 +1577,7 @@ function PlayContent() {
               <button
                 type="button"
                 onClick={resetGame}
-                className="btn-secondary py-3 px-5 text-xs font-semibold flex items-center justify-center gap-2"
+                className="clay-btn-secondary py-3.5 px-6 text-xs font-bold flex items-center justify-center gap-2 rounded-2xl"
               >
                 Setup <span className="kbd-shortcut">S</span>
               </button>
